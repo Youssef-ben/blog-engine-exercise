@@ -1,0 +1,76 @@
+###############################################
+# ADD ONLY THE NEEDED INFRASTRUCTURE CONTAINERS
+###############################################
+
+version: "3.8"
+
+volumes:
+  pgadmin:
+    name: ${PGADMIN_CONTAINER_NAME}
+  sonarqube:
+    name: ${SONARQUBE_CONTAINER_NAME}
+  sonarqube-database:
+    name: ${SONARQUBE_DB_CONTAINER_NAME}
+
+networks:
+  blog-engine:
+    name: blog-engine-network
+
+services:
+  ## Database GUI
+  pgadmin:
+    container_name: ${PGADMIN_CONTAINER_NAME}
+    image: dpage/pgadmin4:latest
+    restart: always
+    environment:
+      - PGADMIN_DISABLE_POSTFIX=true
+      - PGADMIN_CONFIG_CONSOLE_LOG_LEVEL=10
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_USER}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_PASSWORD}
+      - PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION=True
+      - PGADMIN_CONFIG_LOGIN_BANNER="Authorised users only!"
+      - PGADMIN_CONFIG_SERVER_MODE=True
+    volumes:
+      - pgadmin:/var/lib/pgadmin:rw
+      - ./data/pgadmin:/var/lib/pgadmin/storage
+    ports:
+      - ${PGADMIN_PORT}:80
+    networks:
+      - blog-engine
+
+  ## SonarQube - Code style
+  sonarqube:
+    container_name: ${SONARQUBE_CONTAINER_NAME}
+    image: sonarqube:community
+    restart: always
+    mem_limit: 4096M
+    mem_reservation: 1024M
+    environment:
+      SONAR_JDBC_URL: jdbc:postgresql://sonarqube-database:5432/${SONARQUBE_DB_CATALOG}
+      SONAR_JDBC_USERNAME: ${SONARQUBE_DB_USER}
+      SONAR_JDBC_PASSWORD: ${SONARQUBE_DB_PASSWORD}
+    volumes:
+      - sonarqube:/opt/sonarqube/data
+    ports:
+      - ${SONARQUBE_PORT}:9000
+    depends_on:
+      - sonarqube-database
+    networks:
+      - blog-engine
+
+  ## SonarQube - Database
+  sonarqube-database:
+    container_name: ${SONARQUBE_DB_CONTAINER_NAME}
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_DB: ${SONARQUBE_DB_CATALOG}
+      POSTGRES_USER: ${SONARQUBE_DB_USER}
+      POSTGRES_PASSWORD: ${SONARQUBE_DB_PASSWORD}
+      POSTGRES_INITDB_ARGS: "--data-checksums"
+    ports:
+      - "${SONARQUBE_DB_PORT}:5432"
+    volumes:
+      - sonarqube-database:/var/lib/postgresql/data
+    networks:
+      - blog-engine
