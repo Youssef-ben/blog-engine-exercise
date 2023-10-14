@@ -23,9 +23,7 @@ public class CategoriesRepository : ICategoriesRepository
 
   public async Task<Category> CreateCategoryAsync(Category entity)
   {
-    entity = (await _table.AddAsync(entity)).Entity;
-
-    return entity;
+    return (await _table.AddAsync(entity)).Entity;
   }
 
   public async Task<Pagination<Category>> SearchCategoriesAsync(SearchQueryParameters searchParams)

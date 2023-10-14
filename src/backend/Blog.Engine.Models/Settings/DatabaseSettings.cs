@@ -1,5 +1,8 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace Blog.Engine.Models.Settings;
 
+[ExcludeFromCodeCoverage]
 public class DatabaseSettings
 {
   public string Server { get; init; } = string.Empty;
