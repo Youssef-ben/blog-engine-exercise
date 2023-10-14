@@ -3,6 +3,7 @@ using Blog.Engine.Models.DataTransfer;
 using Blog.Engine.Models.Domain;
 using Blog.Engine.Models.Response;
 using Blog.Engine.Services.Categories;
+using Blog.Engine.Services.Posts;
 using Blog.Engine.Tests.Models;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
@@ -14,12 +15,14 @@ namespace Blog.Engine.Tests.UnitTests.Controllers;
 public class CategoriesControllersTests
 {
   private readonly CategoriesController _controller;
+  private readonly Mock<IPostsService> _postServiceMock;
   private readonly Mock<ICategoriesService> _serviceMock;
 
   public CategoriesControllersTests()
   {
     _serviceMock = new Mock<ICategoriesService>();
-    _controller = new CategoriesController(_serviceMock.Object);
+    _postServiceMock = new Mock<IPostsService>();
+    _controller = new CategoriesController(_serviceMock.Object, _postServiceMock.Object);
   }
 
   [Fact]
@@ -113,7 +116,7 @@ public class CategoriesControllersTests
   }
 
   [Fact]
-  public async Task FetchCategoriesAsync_GivenSearchQuery_WhenFetching_ThenPaginatedListOfCategoriesIsReturned()
+  public async Task SearchCategoriesAsync_GivenSearchQuery_WhenFetching_ThenPaginatedListOfCategoriesIsReturned()
   {
     // Arrange
     var categoriesList = new List<Category>
@@ -128,7 +131,7 @@ public class CategoriesControllersTests
         .ReturnsAsync(paginatedList);
 
     // Act
-    var result = (OkObjectResult)await _controller.FetchCategoriesAsync(new SearchQueryParameters());
+    var result = (OkObjectResult)await _controller.SearchCategoriesAsync(new SearchQueryParameters());
 
     // Assert
     result.StatusCode
@@ -141,7 +144,7 @@ public class CategoriesControllersTests
   }
 
   [Fact]
-  public async Task FetchCategoriesAsync_GivenSearchQuery_WhenFetchingAndNoDataFound_ThenNoContentStatusIsReturned()
+  public async Task SearchCategoriesAsync_GivenSearchQuery_WhenFetchingAndNoDataFound_ThenNoContentStatusIsReturned()
   {
     // Arrange
     var paginatedList = new Pagination<Category>(new List<Category>(), 0, 1, 25);
@@ -151,11 +154,79 @@ public class CategoriesControllersTests
         .ReturnsAsync(paginatedList);
 
     // Act
-    var result = (NoContentResult)await _controller.FetchCategoriesAsync(new SearchQueryParameters());
+    var result = (NoContentResult)await _controller.SearchCategoriesAsync(new SearchQueryParameters());
 
     // Assert
     result.StatusCode
         .Should()
         .Be(StatusCodes.Status204NoContent);
+  }
+
+  [Fact]
+  public async Task SearchPostsByCategoryAsync_GivenCategoryId_WhenSearchingPosts_ThenPostsAreReturned()
+  {
+    // Arrange
+    var category = ModelsHelpers.GetCategory("Test Category");
+    _serviceMock
+        .Setup(it => it.FindCategoryAsync(It.IsAny<string>()))
+        .ReturnsAsync(category);
+
+    var postsList = new List<Post>
+    {
+      ModelsHelpers.GetPost(Guid.NewGuid()),
+      ModelsHelpers.GetPost(Guid.NewGuid())
+    };
+    var paginatedList = new Pagination<Post>(postsList, postsList.Count, 1, 25);
+
+    _postServiceMock
+        .Setup(it => it.SearchPostsByCategoryAsync(It.IsAny<Guid>(), It.IsAny<SearchQueryParameters>()))
+        .ReturnsAsync(paginatedList);
+
+    // Act
+    var result = (OkObjectResult)await _controller.SearchCategoryPostsAsync(
+                                     category.Id.ToString(),
+                                     new SearchQueryParameters());
+
+    // Assert
+    result.StatusCode.Should().Be(StatusCodes.Status200OK);
+  }
+
+  [Fact]
+  public async Task SearchPostsByCategoryAsync_GivenUnknownCategoryId_WhenSearchingPosts_ThenNotFoundIsReturned()
+  {
+    // Arrange
+    _serviceMock
+        .Setup(it => it.FindCategoryAsync(It.IsAny<string>()))
+        .ReturnsAsync(() => default);
+
+    // Act
+    var result = (NotFoundObjectResult)await _controller.SearchCategoryPostsAsync(
+                                           Guid.NewGuid().ToString(),
+                                           new SearchQueryParameters());
+
+    // Assert
+    result.StatusCode.Should().Be(StatusCodes.Status404NotFound);
+  }
+
+  [Fact]
+  public async Task SearchPostsByCategoryAsync_GivenCategoryThatHasNoPosts_WhenSearchingPosts_ThenNotContentIsReturned()
+  {
+    // Arrange
+    var category = ModelsHelpers.GetCategory("Test Category");
+    _serviceMock
+        .Setup(it => it.FindCategoryAsync(It.IsAny<string>()))
+        .ReturnsAsync(category);
+
+    _postServiceMock
+        .Setup(it => it.SearchPostsByCategoryAsync(It.IsAny<Guid>(), It.IsAny<SearchQueryParameters>()))
+        .ReturnsAsync(new Pagination<Post>(new List<Post>(), 0, 1, 25));
+
+    // Act
+    var result = (NoContentResult)await _controller.SearchCategoryPostsAsync(
+                                      Guid.NewGuid().ToString(),
+                                      new SearchQueryParameters());
+
+    // Assert
+    result.StatusCode.Should().Be(StatusCodes.Status204NoContent);
   }
 }

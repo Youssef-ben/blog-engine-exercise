@@ -157,7 +157,7 @@ public class CategoriesServicesTests
   }
 
   [Fact]
-  public async Task FindCategoryAsync_GivenTitle_WhenFindingCategory_ThenListIsReturned()
+  public async Task FindCategoryAsync_GivenTitle_WhenFindingCategory_ThenCategoryIsReturned()
   {
     // Arrange
     var model = ModelsHelpers.GetCategory("Test Category 1");
@@ -174,7 +174,7 @@ public class CategoriesServicesTests
   }
 
   [Fact]
-  public async Task FindCategoryAsync_GivenEmptyTitle_WhenFindingCategory_ThenListIsReturned()
+  public async Task FindCategoryAsync_GivenEmptyTitle_WhenFindingCategory_ThenArgumentNullExceptionIsThrown()
   {
     // Act && Assert
     await _service.Invoking(it => it.FindCategoryAsync(string.Empty))

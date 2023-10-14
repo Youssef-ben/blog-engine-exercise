@@ -1,7 +1,9 @@
 using Asp.Versioning;
 using Blog.Engine.Models.DataTransfer;
+using Blog.Engine.Models.DataTransfer.Posts;
 using Blog.Engine.Models.Response;
 using Blog.Engine.Services.Categories;
+using Blog.Engine.Services.Posts;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Blog.Engine.Api.Controllers.V1;
@@ -13,11 +15,13 @@ namespace Blog.Engine.Api.Controllers.V1;
 [Route("api/categories")]
 public class CategoriesController : BaseController
 {
+  private readonly IPostsService _postService;
   private readonly ICategoriesService _service;
 
-  public CategoriesController(ICategoriesService service)
+  public CategoriesController(ICategoriesService service, IPostsService postService)
   {
     _service = service;
+    _postService = postService;
   }
 
   /// <summary>
@@ -51,8 +55,8 @@ public class CategoriesController : BaseController
   ///   otherwise it return a Bad request.
   /// </remarks>
   /// <param name="model">The Category data.</param>
-  /// <returns>The newly created category</returns>
-  /// <response code="200">{Success} - The Category is created.</response>
+  /// <returns>The updated category</returns>
+  /// <response code="200">{Success} - The Category is updated.</response>
   /// <response code="400">{Bad Request} - Values or parameters are invalid.</response>
   /// <response code="500">{Server Error} - An Internal server error occurred.</response>
   [HttpPut("admin")]
@@ -91,7 +95,7 @@ public class CategoriesController : BaseController
   }
 
   /// <summary>
-  ///   Fetches the list of available categories ordered by date
+  ///   Fetches the list of available categories ordered by title
   /// </summary>
   /// <returns>The list of categories</returns>
   /// <response code="200">{Success} - The list of categories.</response>
@@ -101,7 +105,7 @@ public class CategoriesController : BaseController
   [ProducesResponseType(typeof(ApiResponse<Pagination<CategoryDto>>), StatusCodes.Status200OK)]
   [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status204NoContent)]
   [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status500InternalServerError)]
-  public async Task<IActionResult> FetchCategoriesAsync([FromQuery] SearchQueryParameters searchParams)
+  public async Task<IActionResult> SearchCategoriesAsync([FromQuery] SearchQueryParameters searchParams)
   {
     var categoriesList = await _service.SearchCategoriesAsync(searchParams);
     return categoriesList.TotalRecords == 0
@@ -113,6 +117,7 @@ public class CategoriesController : BaseController
   ///   Fetch the all the Category posts if any is found.
   /// </summary>
   /// <param name="identifier">The Category Id or title.</param>
+  /// <param name="searchParams">The Posts search parameters.</param>
   /// <returns>The list of the category posts</returns>
   /// <response code="200">{Success} - The list of the category posts.</response>
   /// <response code="204">{No Content} - No data was found.</response>
@@ -125,7 +130,9 @@ public class CategoriesController : BaseController
   [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
   [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status404NotFound)]
   [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status500InternalServerError)]
-  public async Task<IActionResult> FetchCategoryPostsAsync([FromRoute] string identifier)
+  public async Task<IActionResult> SearchCategoryPostsAsync(
+      [FromRoute] string identifier,
+      [FromQuery] SearchQueryParameters searchParams)
   {
     var domain = await _service.FindCategoryAsync(identifier);
     if (domain is null)
@@ -133,7 +140,14 @@ public class CategoriesController : BaseController
       return ReturnNotFound();
     }
 
-    // TODO: Fetch the paginated posts
-    return ReturnSuccess(CategoryDto.Map(domain));
+    var result = await _postService.SearchPostsByCategoryAsync(domain.Id, searchParams);
+    if (result.TotalRecords == 0)
+    {
+      return NoContent();
+    }
+
+    var category = CategoryDto.Map(domain);
+    category.Posts = PostDto.Map(result);
+    return ReturnSuccess(category);
   }
 }

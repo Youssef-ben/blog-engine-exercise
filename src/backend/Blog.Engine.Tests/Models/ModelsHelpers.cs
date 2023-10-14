@@ -14,13 +14,13 @@ public static partial class ModelsHelpers
     };
   }
 
-  public static Post GetPost(Guid categoryId, string title, string? content = default)
+  public static Post GetPost(Guid categoryId, string title = "Post Title", string content = "Post Content")
   {
     return new Post
     {
       Id = Guid.NewGuid(),
       Title = title,
-      Content = content ?? string.Empty,
+      Content = content,
       CategoryId = categoryId,
       PublicationData = DateOnly.FromDateTime(DateTime.UtcNow),
       Category = default
