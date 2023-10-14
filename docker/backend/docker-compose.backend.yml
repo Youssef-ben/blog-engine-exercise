@@ -1,0 +1,28 @@
+version: "3.8"
+
+volumes:
+  blog-engine-database:
+    name: ${BLOG_ENGINE_DB_CONTAINER_NAME}-${ENVIRONEMENT}
+
+services:
+  # DB
+  blog-engine-database:
+    container_name: ${BLOG_ENGINE_DB_CONTAINER_NAME}-${ENVIRONEMENT}
+    image: postgres:latest
+
+    restart: always
+
+    environment:
+      - POSTGRES_DB=${BLOG_ENGINE_DB_CATALOG}
+      - POSTGRES_USER=${BLOG_ENGINE_DB_USER}
+      - POSTGRES_PASSWORD=${BLOG_ENGINE_DB_PASSWORD}
+      - POSTGRES_INITDB_ARGS="--data-checksums"
+
+    ports:
+      - ${BLOG_ENGINE_DB_PORT}:5432
+
+    volumes:
+      - blog-engine-database:/var/lib/postgresql/data
+
+    networks:
+      - blog-engine
