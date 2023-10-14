@@ -125,3 +125,15 @@ The following are the steps needed to run the project locally:
 
 - Create an environment file `<root>/docker/.env.development` and override the variables that you want.
 - Make sure that you updated/created the `appsettings.<env>.json` file to match the docker urls.
+
+2. Start the infrastructure containers
+
+From the `root` folder of the project run the following command in a powershell:
+
+- `.\scripts\startDockerInfra.ps1`
+
+### Testing the backend project
+
+In order to make sure that the project is working as expected and nothing is broken run the following command in a powershell: _(Note: A browser window will open pointing to the Coverage Report)_
+
+- `./scripts/generateTestsCoverage.ps1`
