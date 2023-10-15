@@ -6,6 +6,7 @@ appsettings.*.json
 !appsettings.common.json
 !appsettings.testing.json
 !appsettings.*.schema*
+sonar.key
 
 docker/data
 .sonarqube

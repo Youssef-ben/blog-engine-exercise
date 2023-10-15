@@ -126,14 +126,59 @@ The following are the steps needed to run the project locally:
 - Create an environment file `<root>/docker/.env.development` and override the variables that you want.
 - Make sure that you updated/created the `appsettings.<env>.json` file to match the docker urls.
 
-2. Start the infrastructure containers
-
-From the `root` folder of the project run the following command in a powershell:
-
-- `.\scripts\startDockerInfra.ps1`
-
-### Testing the backend project
+2. Testing the backend project
 
 In order to make sure that the project is working as expected and nothing is broken run the following command in a powershell: _(Note: A browser window will open pointing to the Coverage Report)_
 
 - `./scripts/generateTestsCoverage.ps1`
+
+3. Start the infrastructure containers
+
+From the `root` folder of the project run the following command in a powershell, it will build the api and start the infrastructure containers.
+_Note: The api my need to be restarted in order to work the first time you setup your environment_
+
+- `.\scripts\startDockerInfra.ps1`
+
+### Setup SonarQube
+
+See global sonarQube [Documentation](https://docs.sonarqube.org/latest/requirements/prerequisites-and-overview/)
+
+#### Setting up sonarqube for the project
+
+In order to start using SonarQube locally for the project, first make sure that the SonarQube server is up and running.
+
+- Go to `http://localhost:[SONARQUBE_SERVER_PORT]`
+- Enter the Credentials _(default: admin:admin)_
+- Go to `http://localhost:[SONARQUBE_SERVER_PORT]/account/security`
+- In the `Tokens -> Generate Tokens` Add a name and select the type `Global Analysis Token`
+- Generate and copy the before you leave token.
+- Go to the `<root>` folder of the project
+- Create a file `sonar.key`
+- Open and past the token you copied from sonar.
+
+#### DotNet Core
+
+1. Install required tools
+
+Only use if the tools are not installed
+
+```bash
+dotnet tool install --global dotnet-sonarscanner
+dotnet tool install --global dotnet-coverage
+dotnet tool update dotnet-reportgenerator-globaltool -g
+```
+
+2. Increase max map count
+
+Open or create the `%USERPROFILE%\.wslconfig` file and add the following
+
+```bash
+[wsl2]
+kernelCommandLine = "sysctl.vm.max_map_count=262144"
+```
+
+2. Analyze project using SonarQube
+
+- Make sure that the SonarQube server is up and running
+- Run the script `.\scripts\sonarqube.ps1`
+- Go to the following link where you should see the stat of the projects `http://localhost:[SONARQUBE_SERVER_PORT]/projects`
