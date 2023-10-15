@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Net.Mime;
 using System.Text.Json;
 using Blog.Engine.Models.Exceptions;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Diagnostics;
 
 namespace Blog.Engine.Api.Configuration;
 
+[ExcludeFromCodeCoverage]
 public static class CustomExceptionMiddleware
 {
   internal static IApplicationBuilder UseCustomExceptionHandler(this IApplicationBuilder self)

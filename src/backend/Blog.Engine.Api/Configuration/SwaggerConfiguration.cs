@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Blog.Engine.Models.Settings;
 using Blog.Engine.Models.Settings.Swagger;
 using Microsoft.Extensions.Options;
@@ -6,6 +7,7 @@ using Swashbuckle.AspNetCore.SwaggerUI;
 
 namespace Blog.Engine.Api.Configuration;
 
+[ExcludeFromCodeCoverage]
 internal static class SwaggerConfiguration
 {
   internal static WebApplicationBuilder AddSwaggerServices(this WebApplicationBuilder self,

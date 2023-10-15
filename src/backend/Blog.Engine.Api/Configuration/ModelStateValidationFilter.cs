@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Blog.Engine.Models.Response;
 using JetBrains.Annotations;
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +10,7 @@ namespace Blog.Engine.Api.Configuration;
 ///   Validate the state of the DTOs and throws an error with the exact field or message.
 /// </summary>
 [UsedImplicitly]
+[ExcludeFromCodeCoverage]
 public class ModelStateValidationFilter : IActionFilter
 {
   /// <inheritdoc />
