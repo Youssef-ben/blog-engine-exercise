@@ -1,8 +1,10 @@
+using System.Diagnostics.CodeAnalysis;
 using Blog.Engine.Models.Domain;
 using Microsoft.EntityFrameworkCore;
 
 namespace Blog.Engine.Repositories.Context;
 
+[ExcludeFromCodeCoverage]
 public class BlogEngineDbContext : DbContext
 {
   public BlogEngineDbContext(DbContextOptions<BlogEngineDbContext> options)
