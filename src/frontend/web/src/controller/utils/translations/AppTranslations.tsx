@@ -1,30 +1,22 @@
-import type { LanguageDetectorModule } from 'i18next';
 import i18n from 'i18next';
+import LanguageDetector from 'i18next-browser-languagedetector';
+import { default as Backend, default as HttpApi } from 'i18next-http-backend';
 import { initReactI18next } from 'react-i18next';
+import { DEFAULT_LANGUAGE } from '../constants';
 
-import { enTranslation } from './resources/en';
-import { frTranslation } from './resources/fr';
+i18n
+  .use(HttpApi)
+  .use(Backend)
+  .use(LanguageDetector)
+  .use(initReactI18next)
+  .init({
+    fallbackLng: DEFAULT_LANGUAGE,
+    supportedLngs: ['en', 'fr'],
+    debug: false,
 
-export const setAppTranslation = async (languageDetector: LanguageDetectorModule) => {
-  await i18n
-    .use(languageDetector)
-    .use(initReactI18next)
-    .init({
-      compatibilityJSON: 'v3',
-
-      fallbackLng: 'en',
-
-      interpolation: {
-        escapeValue: false,
-      },
-
-      resources: {
-        enTranslation,
-        frTranslation,
-      },
-    });
-
-  return i18n;
-};
+    interpolation: {
+      escapeValue: false,
+    },
+  });
 
 export default i18n;

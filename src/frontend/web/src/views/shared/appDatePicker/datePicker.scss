@@ -1,0 +1,11 @@
+.react-datepicker-wrapper {
+  width: 100%;
+}
+
+.react-datepicker-popper {
+  padding-top: 0 !important;
+
+  .react-datepicker__triangle {
+    display: none;
+  }
+}

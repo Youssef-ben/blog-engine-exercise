@@ -1,0 +1,9 @@
+.form-floating {
+  .form-control {
+    font-weight: 400;
+  }
+
+  label {
+    color: rgba(var(--bs-body-color-rgb), 0.65);
+  }
+}

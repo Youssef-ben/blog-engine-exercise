@@ -1,17 +1,16 @@
-import React from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App.tsx';
-import './index.css';
-import I18nextBrowserLanguageDetector from 'i18next-browser-languagedetector';
-import { setAppTranslation } from './controller/utils/translations';
+import './controller/utils/translations/AppTranslations';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
-// Set the Language of the project
-void setAppTranslation(new I18nextBrowserLanguageDetector());
-
 root.render(
   <React.StrictMode>
-    <App />
+    <Suspense fallback="loading">
+      <App />
+    </Suspense>
   </React.StrictMode>
 );
