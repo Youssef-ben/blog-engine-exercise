@@ -1,0 +1,33 @@
+{
+  "app": {
+    "title": "Blog Engine"
+  },
+  "common": {
+    "save": "Save",
+    "add": "Add",
+    "loading": "Loading..."
+  },
+  "category": {
+    "list": {
+      "title": "Categories"
+    },
+    "form": {
+      "add": "Add category",
+      "edit": "Edit category",
+      "title": "Title"
+    }
+  },
+  "post": {
+    "list": {
+      "title": "Posts"
+    },
+    "form": {
+      "add": "Add post",
+      "edit": "Edit post",
+      "title": "Title",
+      "categories": "Select category",
+      "publicationDate": "Publication Date",
+      "content": "Content"
+    }
+  }
+}

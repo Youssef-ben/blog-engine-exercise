@@ -13,7 +13,7 @@ module.exports = {
   extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended', 'plugin:react-hooks/recommended'],
   ignorePatterns: ['dist', '.eslintrc.cjs', '!.storybook'],
   parser: '@typescript-eslint/parser',
-  plugins: ['react-refresh'],
+  plugins: ['react-refresh', 'prettier-plugin-organize-imports'],
   rules: {
     'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
     'no-console': 'error',
@@ -110,6 +110,25 @@ module.exports = {
           },
         ],
         'prefer-arrow-callback': ['error', { allowNamedFunctions: true }],
+        'import/order': [
+          'error',
+          {
+            groups: ['builtin', 'external', 'internal', ['parent', 'sibling']],
+            pathGroups: [
+              {
+                pattern: 'react',
+                group: 'external',
+                position: 'before',
+              },
+            ],
+            pathGroupsExcludedImportTypes: ['react'],
+            'newlines-between': 'always',
+            alphabetize: {
+              order: 'asc',
+              caseInsensitive: true,
+            },
+          },
+        ],
       },
       settings: {
         react: {
