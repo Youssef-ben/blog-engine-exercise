@@ -1,3 +1,3 @@
 export * from './categoriesList';
-export * from './categoryForm';
 export * from './categoryItem';
+export * from './categoryModal';

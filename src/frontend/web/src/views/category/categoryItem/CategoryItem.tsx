@@ -9,11 +9,9 @@ export interface CategoryItemProps {
 
 export const CategoryItem = ({ id, title, onClick }: CategoryItemProps) => {
   return (
-    <Card style={styles.card}>
+    <Card style={styles.card} onClick={() => onClick && onClick(id)}>
       <Card.Body style={styles.body}>
-        <Card.Title style={styles.title} onClick={() => onClick && onClick(id)}>
-          {title}
-        </Card.Title>
+        <Card.Title style={styles.title}>{title}</Card.Title>
       </Card.Body>
     </Card>
   );
