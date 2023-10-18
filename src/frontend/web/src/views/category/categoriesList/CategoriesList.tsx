@@ -1,5 +1,5 @@
 import { CategoryItem } from '..';
-import { Category } from '../../../models/categoryDto';
+import { Category } from '../../../models/category';
 import { Pagination } from '../../../models/response';
 import { NoDataFound } from '../../shared/noDataFound/NoDataFound';
 

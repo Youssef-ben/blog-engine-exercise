@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Category } from '../../../../../models/categoryDto';
+import { Category } from '../../../../../models/category';
 import { ApiResponse, Pagination } from '../../../../../models/response';
 import { CategoriesListProps, CategoryModalError, CategoryModalProps } from '../../../../../views/category';
 import { UpdateNotifier } from '../../../../utils/UpdateNotifier';
