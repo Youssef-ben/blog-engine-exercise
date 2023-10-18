@@ -34,26 +34,8 @@ export const useEditCategoryContainer = (): UseEditCategoryContainerData => {
     }
   };
 
-  console.log(categories);
   useEffect(() => {
-    console.log('UseEffect');
     //TODO: Fetch the categories list
-    const values: CategoryItemProps[] = [
-      {
-        id: 'uuid-1',
-        title: 'Category 1',
-      },
-      {
-        id: 'uuid-2',
-        title: 'Category 2',
-      },
-      {
-        id: 'uuid-3',
-        title: 'Category 3',
-      },
-    ];
-
-    setCategories([...values]);
   }, []);
 
   const getCategories = () => {

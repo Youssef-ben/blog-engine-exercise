@@ -3,7 +3,7 @@ import { Modal } from 'react-bootstrap';
 import { SimpleButton } from '../simpleButton';
 
 export interface AppModalProps {
-  children: ReactNode;
+  children?: ReactNode;
   isOpen: boolean;
   modalTitle: string;
   isLoading?: boolean;
