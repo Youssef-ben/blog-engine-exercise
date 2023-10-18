@@ -12,6 +12,7 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
+    "axios": "^1.5.1",
     "bootstrap": "^5.3.2",
     "i18next": "^23.5.1",
     "i18next-browser-languagedetector": "^7.1.0",

@@ -7,7 +7,7 @@ export interface AdminPageProps {}
 export const AdminPage = ({}: AdminPageProps) => {
   return (
     <Container fluid>
-      <Row style={{ height: '80vh', maxHeight: '80vh' }}>
+      <Row style={{ height: 'calc(100vh - 56px)', maxHeight: 'calc(100vh - 56px)' }}>
         <Col style={{ borderRight: '1px solid #dee2e6', paddingTop: 24 }}>
           <CategoryPage />
         </Col>

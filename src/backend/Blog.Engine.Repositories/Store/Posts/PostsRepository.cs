@@ -28,7 +28,7 @@ public class PostsRepository : IPostsRepository
     }
 
     return _table
-        .Where(post => post.Title == identifier)
+        .Where(post => post.Title.ToLower() == identifier.ToLower())
         .AsNoTracking()
         .FirstOrDefaultAsync();
   }

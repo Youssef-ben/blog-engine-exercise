@@ -7,6 +7,10 @@ const router = createBrowserRouter([
     element: <PageContainer />,
     children: [
       {
+        path: '/admin',
+        element: <AdminPage />,
+      },
+      {
         path: '/',
         element: <AdminPage />,
       },

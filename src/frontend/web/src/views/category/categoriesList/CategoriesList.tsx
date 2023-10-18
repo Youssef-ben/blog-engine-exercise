@@ -1,17 +1,19 @@
-import { CategoryItem, CategoryItemProps } from '..';
+import { CategoryItem } from '..';
+import { Category } from '../../../models/categoryDto';
+import { Pagination } from '../../../models/response';
 import { NoDataFound } from '../../shared/noDataFound/NoDataFound';
 
 export interface CategoriesListProps {
-  categories: CategoryItemProps[];
-  onOpenModal?: () => void;
+  categories?: Pagination<Category>;
+  onClick?: (id: string) => void;
 }
 
-export const CategoriesList = ({ categories = [] }: CategoriesListProps) => {
-  if (categories.length === 0) {
+export const CategoriesList = ({ categories, onClick }: CategoriesListProps) => {
+  if (!categories || categories.firstPage === 0) {
     return <NoDataFound />;
   }
 
-  return categories.map((category) => {
-    return <CategoryItem key={category.id} {...category} />;
+  return categories.records.map((category) => {
+    return <CategoryItem key={category.id} {...category} onClick={onClick} />;
   });
 };

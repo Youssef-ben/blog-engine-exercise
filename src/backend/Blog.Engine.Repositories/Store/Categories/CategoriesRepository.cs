@@ -58,7 +58,7 @@ public class CategoriesRepository : ICategoriesRepository
 
     return await _table
                .AsNoTracking()
-               .Where(x => x.Title == identifier)
+               .Where(x => x.Title.ToLower() == identifier.ToLower())
                .FirstOrDefaultAsync();
   }
 

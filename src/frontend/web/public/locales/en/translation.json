@@ -7,7 +7,8 @@
     "cancel": "Cancel",
     "add": "Add",
     "edit": "Edit",
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "unknownError": "Oops! An error occurred while processing your request, please refresh your page and try again!"
   },
   "category": {
     "list": {
@@ -16,7 +17,10 @@
     "form": {
       "add": "Add category",
       "edit": "Edit category",
-      "title": "Title"
+      "title": "Title",
+      "error": {
+        "titleRequired": "The title of the category is required!"
+      }
     }
   },
   "post": {
@@ -35,5 +39,15 @@
   "noData": {
     "title": "Oops! it looks like there is no data yet!",
     "details": "Click on the (Add) button to start."
+  },
+  "api": {
+    "err": {
+      "validation": {
+        "category": {
+          "exists": "The category you've entered already exists, please try another one!",
+          "notFound": "The category you're looking for doesn't exists, please try another one!"
+        }
+      }
+    }
   }
 }
