@@ -4,7 +4,9 @@
   },
   "common": {
     "save": "Save",
+    "cancel": "Cancel",
     "add": "Add",
+    "edit": "Edit",
     "loading": "Loading..."
   },
   "category": {
@@ -29,5 +31,9 @@
       "publicationDate": "Publication Date",
       "content": "Content"
     }
+  },
+  "noData": {
+    "title": "Oops! it looks like there is no data yet!",
+    "details": "Click on the (Add) button to start."
   }
 }
