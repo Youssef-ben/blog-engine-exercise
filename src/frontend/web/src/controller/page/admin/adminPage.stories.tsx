@@ -1,14 +1,14 @@
 import type { Meta, StoryFn } from '@storybook/react';
-import { AminPage } from './AminPage';
-import { aminPageMocks } from './aminPage.mocks';
+import { AdminPage } from './AdminPage';
+import { aminPageMocks } from './adminPage.mocks';
 
 export default {
   title: 'controller/page/admin/AdminPage',
-  component: AminPage,
+  component: AdminPage,
   tags: ['autodocs'],
-} as Meta<typeof AminPage>;
+} as Meta<typeof AdminPage>;
 
-const Template: StoryFn<typeof AminPage> = (args) => <AminPage {...args} />;
+const Template: StoryFn<typeof AdminPage> = (args) => <AdminPage {...args} />;
 
 export const Default = Template.bind({});
 Default.args = aminPageMocks.defaultProps;

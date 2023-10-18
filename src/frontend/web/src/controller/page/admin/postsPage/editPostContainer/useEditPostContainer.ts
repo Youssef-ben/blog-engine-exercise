@@ -16,22 +16,7 @@ export const useEditPostContainer = (): EditPostContainerDate => {
   const [currentPost, setCurrentPost] = useState<PostItemProps>();
   const [posts, setPosts] = useState<PostItemProps[]>([]);
 
-  useEffect(() => {
-    var posts: PostItemProps[] = [
-      {
-        id: 'uuid-1',
-        title: 'Post 1',
-        publicationDate: '2023-01-01',
-      },
-      {
-        id: 'uuid-2',
-        title: 'Post 2',
-        publicationDate: '2023-02-02',
-      },
-    ];
-
-    setPosts(posts);
-  }, []);
+  useEffect(() => {}, []);
 
   const onEditPostClick = (id: string) => {
     const post = posts.find((c) => c.id === id);
