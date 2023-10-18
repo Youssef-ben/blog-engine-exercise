@@ -12,7 +12,13 @@ export const PageContainer = () => {
 
   return (
     <>
-      <Navbar sticky="top" className="bg-body-tertiary">
+      <Navbar
+        sticky="top"
+        className="bg-body-tertiary"
+        style={{
+          boxShadow: '0px 5px 8px -9px black',
+        }}
+      >
         <Container fluid>
           <Navbar.Brand href="#home">
             <img alt="" src={Logo} width="30" height="30" className="d-inline-block align-top" /> {t('app.title')}

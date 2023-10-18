@@ -1,14 +1,15 @@
 import { Col, Row } from 'react-bootstrap';
 import { CategoriesList, CategoryModal } from '../../../../../views/category';
+import { AppLoader } from '../../../../../views/shared';
 import { useEditCategoryContainer } from './useEditCategoryContainer';
 
 export const EditCategoryContainer = () => {
-  const { categories, categoryModal } = useEditCategoryContainer();
+  const { categoriesListProps, categoryModal } = useEditCategoryContainer();
 
   return (
     <Row>
       <Col>
-        <CategoriesList categories={categories} />
+        {categoryModal.isLoading ? <AppLoader variant="primary" /> : <CategoriesList {...categoriesListProps} />}
         <CategoryModal {...categoryModal} />
       </Col>
     </Row>

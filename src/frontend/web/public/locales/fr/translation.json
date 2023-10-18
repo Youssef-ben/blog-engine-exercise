@@ -7,7 +7,8 @@
     "cancel": "Annuler",
     "add": "Ajouter",
     "edit": "Modifier",
-    "loading": "Chargement..."
+    "loading": "Chargement...",
+    "unknownError": "Oups ! Une erreur s'est produite lors du traitement de votre demande, veuillez rafraîchir votre page et réessayer !"
   },
   "category": {
     "list": {
@@ -35,5 +36,15 @@
   "noData": {
     "title": "Oops! Il semble qu'il n'y ait pas encore de données !",
     "details": "Cliquez sur le bouton (Ajouter) pour commencer."
+  },
+  "api": {
+    "err": {
+      "validation": {
+        "category": {
+          "exists": "La catégorie que vous avez saisie existe déjà, essayez-en une autre !",
+          "notFound": "La catégorie que vous recherchez n'existe pas, essayez-en une autre !"
+        }
+      }
+    }
   }
 }

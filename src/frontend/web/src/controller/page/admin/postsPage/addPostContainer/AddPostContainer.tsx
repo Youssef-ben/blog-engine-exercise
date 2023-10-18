@@ -12,7 +12,7 @@ export const AddPostContainer = () => {
   return (
     <div style={styles.header}>
       <h3 style={{ marginBottom: 0 }}>{t('post.list.title')}</h3>
-      <SimpleButton label={t('common.add')} variant="secondary" onClick={handleOpenModal} />
+      <SimpleButton label={t('common.add')} variant="success" onClick={handleOpenModal} />
       <PostModal {...postModal} />
     </div>
   );
