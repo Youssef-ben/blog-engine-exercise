@@ -62,9 +62,9 @@ namespace Blog.Engine.Repositories.Migrations
                         .HasColumnType("text")
                         .HasColumnName("content");
 
-                    b.Property<DateOnly>("PublicationData")
+                    b.Property<DateOnly>("PublicationDate")
                         .HasColumnType("date")
-                        .HasColumnName("publication_data");
+                        .HasColumnName("publication_date");
 
                     b.Property<string>("Title")
                         .IsRequired()

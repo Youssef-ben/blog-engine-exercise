@@ -10,7 +10,7 @@ public class Post
 
   public string Content { get; set; } = string.Empty;
 
-  public DateOnly PublicationData { get; set; }
+  public DateOnly PublicationDate { get; set; }
 
   public Category? Category { get; set; }
 }

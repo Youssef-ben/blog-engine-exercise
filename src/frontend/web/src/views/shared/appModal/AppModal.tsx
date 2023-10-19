@@ -7,6 +7,7 @@ export interface AppModalProps {
   isOpen: boolean;
   modalTitle: string;
   isLoading?: boolean;
+  isDisabled?: boolean;
   primaryButtonLabel: string;
   onPrimaryButtonClick: () => void;
   onSecondaryButtonClick: () => void;
@@ -16,6 +17,7 @@ export const AppModal = ({
   children,
   isOpen,
   isLoading,
+  isDisabled,
   modalTitle,
   primaryButtonLabel,
   onPrimaryButtonClick,
@@ -30,7 +32,7 @@ export const AppModal = ({
       <Modal.Body>{children}</Modal.Body>
 
       <Modal.Footer>
-        <SimpleButton label={primaryButtonLabel} variant="primary" isLoading={isLoading} onClick={onPrimaryButtonClick} />
+        <SimpleButton label={primaryButtonLabel} variant="primary" isLoading={isLoading} isDisabled={isDisabled} onClick={onPrimaryButtonClick} />
       </Modal.Footer>
     </Modal>
   );

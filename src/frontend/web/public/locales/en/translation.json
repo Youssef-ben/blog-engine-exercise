@@ -33,7 +33,13 @@
       "title": "Title",
       "categories": "Select category",
       "publicationDate": "Publication Date",
-      "content": "Content"
+      "content": "Content",
+      "error": {
+        "titleRequired": "The title of the post is required!",
+        "contentRequired": "The content of the post is required!",
+        "categoryIdRequired": "The category of the post is required!",
+        "publicationDateRequired": "The publication date of the post is required!"
+      }
     }
   },
   "noData": {

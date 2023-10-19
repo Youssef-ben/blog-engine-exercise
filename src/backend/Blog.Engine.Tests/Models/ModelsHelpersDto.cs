@@ -32,7 +32,7 @@ public static partial class ModelsHelpers
       Title = title,
       CategoryId = categoryId,
       Content = content,
-      PublicationData = DateOnly.FromDateTime(DateTime.UtcNow)
+      PublicationDate = DateOnly.FromDateTime(DateTime.UtcNow)
     };
   }
 
@@ -47,7 +47,7 @@ public static partial class ModelsHelpers
       Title = title,
       CategoryId = categoryId,
       Content = content,
-      PublicationData = DateOnly.FromDateTime(DateTime.UtcNow)
+      PublicationDate = DateOnly.FromDateTime(DateTime.UtcNow)
     };
   }
 }

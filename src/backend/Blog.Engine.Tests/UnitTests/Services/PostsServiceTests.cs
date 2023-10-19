@@ -176,7 +176,7 @@ public class PostsServiceTests
           Id = Guid.NewGuid(),
           Title = model.Title,
           Content = model.Content,
-          PublicationData = model.PublicationData,
+          PublicationDate = model.PublicationDate,
           CategoryId = model.CategoryId
         });
 

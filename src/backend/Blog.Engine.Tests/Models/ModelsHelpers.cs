@@ -22,7 +22,7 @@ public static partial class ModelsHelpers
       Title = title,
       Content = content,
       CategoryId = categoryId,
-      PublicationData = DateOnly.FromDateTime(DateTime.UtcNow),
+      PublicationDate = DateOnly.FromDateTime(DateTime.UtcNow),
       Category = default
     };
   }

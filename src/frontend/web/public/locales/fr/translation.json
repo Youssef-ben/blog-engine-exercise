@@ -17,7 +17,10 @@
     "form": {
       "add": "Ajouter une catégorie",
       "edit": "Modifier la catégorie",
-      "title": "Titre"
+      "title": "Titre",
+      "error": {
+        "titleRequired": "Le titre de la catégorie est obligatoire !"
+      }
     }
   },
   "post": {
@@ -30,8 +33,15 @@
       "title": "Titre",
       "categories": "Sélectionner une catégorie",
       "publicationDate": "Date de Publication",
-      "content": "Contenu"
-    }
+      "content": "Contenu",
+      "error": {
+        "titleRequired": "Le titre du post est obligatoire !",
+        "contentRequired": "Le contenu du post est obligatoire !",
+        "categoryIdRequired": "La category du post est obligatoire !",
+        "publicationDateRequired": "La date de publication du post est obligatoire !"
+      }
+    },
+    "error": {}
   },
   "noData": {
     "title": "Oops! Il semble qu'il n'y ait pas encore de données !",

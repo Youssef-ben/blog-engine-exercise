@@ -76,7 +76,7 @@ public class PostsService : IPostsService
     if (model.CategoryId == Guid.Empty
         || string.IsNullOrEmpty(model.Title)
         || string.IsNullOrEmpty(model.Content)
-        || model.PublicationData < DateOnly.FromDateTime(DateTime.UtcNow))
+        || model.PublicationDate < DateOnly.FromDateTime(DateTime.UtcNow))
     {
       throw new ValidationException(
           "api.err.validation.post.fields.required",

@@ -67,10 +67,11 @@ public class PostsRepository : IPostsRepository
 
   private IQueryable<Post> GetSearchPostsQueryAsync(SearchQueryParameters searchParams)
   {
+    var rr = DateOnly.FromDateTime(DateTime.UtcNow);
     var queryable = _table.GetQuery()
-        .OrderByDescending(x => x.PublicationData)
+        .OrderByDescending(x => x.PublicationDate)
         .ThenBy(x => x.Title)
-        .Where(x => x.PublicationData <= DateOnly.FromDateTime(DateTime.UtcNow));
+        .Where(x => x.PublicationDate <= DateOnly.FromDateTime(DateTime.UtcNow));
 
     if (!string.IsNullOrWhiteSpace(searchParams.Keyword))
     {
