@@ -18,7 +18,7 @@ public class UpdatePostDto
   public string Content { get; set; } = string.Empty;
 
   [Required]
-  public DateOnly PublicationData { get; set; }
+  public DateOnly PublicationDate { get; set; }
 
   public Post ToDomain()
   {
@@ -28,7 +28,7 @@ public class UpdatePostDto
       CategoryId = CategoryId,
       Title = Title,
       Content = Content,
-      PublicationData = PublicationData
+      PublicationDate = PublicationDate
     };
   }
 }

@@ -12,6 +12,7 @@ export interface TextInputProps extends FormControlProps {
   value?: string;
   isTextArea?: boolean;
   isReadOnly?: boolean;
+  name?: string;
   onClick?: () => void;
 }
 

@@ -95,7 +95,6 @@ export const useEditCategoryContainer = (): UseEditCategoryContainerData => {
 
   useEffect(() => {
     if (refetch) {
-      console.log('Re-Fetching');
       fetchCategories();
       setRefetch(undefined);
     }

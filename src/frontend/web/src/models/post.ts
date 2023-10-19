@@ -1,6 +1,7 @@
-export interface CreatePost {
+export interface Post {
+  id?: string;
   categoryId: string;
   title: string;
   content: string;
-  publicationData: Date;
+  publicationDate: Date;
 }

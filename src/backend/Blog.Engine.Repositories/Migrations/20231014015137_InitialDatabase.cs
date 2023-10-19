@@ -33,7 +33,7 @@ namespace Blog.Engine.Repositories.Migrations
                     category_id = table.Column<Guid>(type: "uuid", nullable: false),
                     title = table.Column<string>(type: "text", nullable: false),
                     content = table.Column<string>(type: "text", nullable: false),
-                    publication_data = table.Column<DateOnly>(type: "date", nullable: false)
+                    publication_date = table.Column<DateOnly>(type: "date", nullable: false)
                 },
                 constraints: table =>
                 {

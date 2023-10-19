@@ -4,13 +4,13 @@ import { PostModal } from '../../../../../views/post/postModal';
 import { useEditPostContainer } from './useEditPostContainer';
 
 export const EditPostContainer = () => {
-  const { posts, postModal } = useEditPostContainer();
+  const { postsListProps, postModalProps } = useEditPostContainer();
 
   return (
     <Row>
       <Col>
-        <PostsList posts={posts} />
-        <PostModal {...postModal} />
+        <PostsList {...postsListProps} />
+        <PostModal {...postModalProps} />
       </Col>
     </Row>
   );

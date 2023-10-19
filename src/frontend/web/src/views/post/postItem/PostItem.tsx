@@ -1,6 +1,8 @@
 import { CSSProperties } from 'react';
 import { Card } from 'react-bootstrap';
 
+import './postItem.scss';
+
 export interface PostItemProps {
   id: string;
   title: string;
@@ -10,7 +12,7 @@ export interface PostItemProps {
 
 export const PostItem = ({ id, title, publicationDate, onClick }: PostItemProps) => {
   return (
-    <Card style={styles.card} onClick={() => onClick && onClick(id)}>
+    <Card className="categoryItem" style={styles.card} onClick={() => onClick && onClick(id)}>
       <Card.Body style={styles.body}>
         <div>
           <Card.Title style={styles.title}>{title}</Card.Title>

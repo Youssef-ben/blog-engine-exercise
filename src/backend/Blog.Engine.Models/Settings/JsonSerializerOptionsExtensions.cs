@@ -1,6 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Blog.Engine.Models.Response;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Blog.Engine.Models.Settings;
@@ -16,6 +17,7 @@ public static class JsonSerializerOptionsExtensions
     opt.JsonSerializerOptions.ReferenceHandler = config.ReferenceHandler;
     opt.JsonSerializerOptions.PropertyNamingPolicy = config.PropertyNamingPolicy;
     opt.JsonSerializerOptions.DefaultIgnoreCondition = config.DefaultIgnoreCondition;
+    opt.JsonSerializerOptions.Converters.Add(new DateAndTimeOnlyJsonConverter());
   };
 
   public static JsonSerializerOptions GetJsonOptions(bool writeIndentation = true)
@@ -28,6 +30,7 @@ public static class JsonSerializerOptionsExtensions
       PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
       DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
     };
+    option.Converters.Add(new DateAndTimeOnlyJsonConverter());
 
     return option;
   }

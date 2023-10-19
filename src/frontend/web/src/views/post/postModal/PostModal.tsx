@@ -1,59 +1,116 @@
-import { Form } from 'react-bootstrap';
+import { Alert, FloatingLabel, Form } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import { CategoryItemProps } from '../../category';
-import { AppDatePicker, TextInput } from '../../shared';
+import Select from 'react-select';
+import { AppDatePicker } from '../../shared';
 import { AppModal, AppModalProps } from '../../shared/appModal/AppModal';
 
+export interface CategoryModalError {
+  messages: string[];
+}
+
+export interface PostCategoryOption {
+  value: string;
+  label: string;
+}
+
 export interface PostModalCategories {
-  selectedCategory?: CategoryItemProps;
-  categories: CategoryItemProps[];
+  selected?: PostCategoryOption;
+  categories: PostCategoryOption[];
 }
 
 export interface PostModalProps extends AppModalProps {
-  title?: string;
-  publicationDate?: Date;
-  content?: string;
-  postCategories?: PostModalCategories;
-  onDateChange: (date: Date) => void;
+  title: string;
+  content: string;
+  publicationDate: Date;
+  categoriesOptions: PostModalCategories;
+  error: CategoryModalError;
+  handleChange: (value: any) => void;
 }
 
-export const PostModal = ({ isLoading, title, publicationDate, content, postCategories, onDateChange, ...props }: PostModalProps) => {
+export const PostModal = ({ isLoading, error, title, content, publicationDate, categoriesOptions, handleChange, ...props }: PostModalProps) => {
   const { t } = useTranslation();
+  const isDisabled = error?.messages?.length > 0 || !title || !content || !categoriesOptions.selected;
 
   return (
-    <AppModal {...props} isLoading={isLoading}>
+    <AppModal {...props} isLoading={isLoading} isDisabled={isDisabled}>
       <Form>
         <Form.Group className="mb-3">
-          <TextInput id="title" autoFocus label={t('post.form.title')} value={title} disabled={isLoading} />
+          <FloatingLabel label={t('post.form.title')} className="mb-3">
+            <Form.Control
+              autoFocus
+              required
+              type="text"
+              name="title"
+              disabled={isLoading}
+              onChange={handleChange}
+              style={{
+                minHeight: '58px',
+              }}
+            />
+          </FloatingLabel>
         </Form.Group>
 
         <Form.Group className="mb-3">
-          <Form.Select aria-label="Category select" disabled={isLoading}>
-            <option>{t('post.form.categories')}</option>
-            {postCategories &&
-              postCategories.categories.map((category) => {
-                return (
-                  <option value={category.id} selected={postCategories.selectedCategory?.id === category.id}>
-                    {category.title}
-                  </option>
-                );
-              })}
-          </Form.Select>
+          <Select
+            isSearchable
+            name="categoryId"
+            isDisabled={isLoading}
+            placeholder={t('post.form.categories')}
+            noOptionsMessage={() => t('noData.title')}
+            value={categoriesOptions?.selected}
+            options={categoriesOptions?.categories}
+            onChange={(option: any) => {
+              handleChange({
+                target: {
+                  name: 'categoryId',
+                  value: option.value,
+                },
+              });
+            }}
+          />
         </Form.Group>
 
         <Form.Group className="mb-2">
           <AppDatePicker
-            id="publicationDate"
-            label={t('post.form.publicationDate')}
+            name="publicationDate"
             value={publicationDate}
-            onDateChange={onDateChange}
             isDisabled={isLoading}
+            label={t('post.form.publicationDate')}
+            onDateChange={(date: Date) => {
+              handleChange({
+                target: {
+                  name: 'publicationDate',
+                  value: date,
+                },
+              });
+            }}
           />
         </Form.Group>
 
         <Form.Group className="mb-3">
-          <TextInput isTextArea id="content" label={t('post.form.content')} value={content} disabled={isLoading} />
+          <FloatingLabel label={t('post.form.content')} className="mb-3">
+            <Form.Control
+              required
+              type="text"
+              as="textarea"
+              name="content"
+              disabled={isLoading}
+              onChange={handleChange}
+              style={{
+                minHeight: '150px',
+              }}
+            />
+          </FloatingLabel>
         </Form.Group>
+        {error && error.messages.length > 0 && (
+          <Alert variant="danger" style={{ marginBottom: 0 }}>
+            <ul style={{ marginBottom: 0 }}>
+              {error.messages.map((message, index) => (
+                <li key={message + index}>{message}</li>
+              ))}
+            </ul>
+          </Alert>
+        )}
       </Form>
     </AppModal>
   );

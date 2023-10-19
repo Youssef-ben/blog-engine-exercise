@@ -2,7 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace Blog.Engine.Services.Utils;
+namespace Blog.Engine.Models.Response;
 
 [ExcludeFromCodeCoverage]
 public sealed class DateAndTimeOnlyJsonConverter : JsonConverter<DateOnly>

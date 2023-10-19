@@ -14,12 +14,13 @@ export interface AppDatePickerProps {
   label: string;
   value?: Date;
   isDisabled?: boolean;
+  name?: string;
   onDateChange: (date: Date) => void;
 }
 
 export const AppDatePicker = ({ id, label, isDisabled, value = new Date(), onDateChange }: AppDatePickerProps) => {
   const CustomDatePickerInput = forwardRef<HTMLTextAreaElement, Partial<TextInputProps>>(({ value, onClick }, ref) => (
-    <TextInput id={id} ref={ref} label={label} value={value} onClick={onClick} isReadOnly disabled={isDisabled} />
+    <TextInput id={id} name={id} ref={ref} label={label} value={value} onClick={onClick} isReadOnly disabled={isDisabled} />
   ));
 
   return (

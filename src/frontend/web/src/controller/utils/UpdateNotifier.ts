@@ -17,11 +17,9 @@ export class UpdateNotifier {
   }
 
   static subscribe(listener: ChangeTypes, callback: () => void) {
-    if (!this.subscribers.find((sub) => sub.id === listener)) {
-      this.subscribers.push({
-        id: listener,
-        callback: callback,
-      });
-    }
+    this.subscribers.push({
+      id: listener,
+      callback: callback,
+    });
   }
 }
