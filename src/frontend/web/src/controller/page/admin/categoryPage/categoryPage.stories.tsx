@@ -2,7 +2,7 @@ import type { Meta, StoryFn } from '@storybook/react';
 import { CategoryPage } from './CategoryPage';
 
 export default {
-  title: 'controller/page/admin/categoryPage/CategoryPage',
+  title: 'controller/page/admin/categoriesPage/CategoryPage',
   component: CategoryPage,
   tags: ['autodocs'],
 } as Meta<typeof CategoryPage>;

@@ -29,6 +29,8 @@ const styles: CategoryItemStyles = {
   card: {
     marginBottom: 8,
     cursor: 'pointer',
+    paddingRight: 8,
+    paddingLeft: 8,
   },
   body: {
     display: 'flex',

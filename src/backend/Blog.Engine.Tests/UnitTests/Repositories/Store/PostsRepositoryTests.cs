@@ -1,4 +1,5 @@
 using Blog.Engine.Models.DataTransfer;
+using Blog.Engine.Repositories.Store.Categories;
 using Blog.Engine.Repositories.Store.Posts;
 using Blog.Engine.Tests.Models;
 using FluentAssertions;
@@ -7,10 +8,12 @@ namespace Blog.Engine.Tests.UnitTests.Repositories.Store;
 
 public class PostsRepositoryTests : IClassFixture<DatabaseFixture>
 {
+  private readonly ICategoriesRepository _categoriesRepository;
   private readonly IPostsRepository _repository;
 
   public PostsRepositoryTests(DatabaseFixture fixture)
   {
+    _categoriesRepository = new CategoriesRepository(fixture.DbContext);
     _repository = new PostsRepository(fixture.DbContext);
   }
 
@@ -34,7 +37,11 @@ public class PostsRepositoryTests : IClassFixture<DatabaseFixture>
   public async Task GivenPostTitle_WhenFetching_ThenPostIsReturned()
   {
     // Arrange
+    var categoryModel = ModelsHelpers.GetCategory("Test");
     var model = ModelsHelpers.GetPost(Guid.NewGuid());
+    model.CategoryId = categoryModel.Id;
+    model.Category = categoryModel;
+
     model = await _repository.CreatePostAsync(model);
     await _repository.ApplyChangesAsync();
 

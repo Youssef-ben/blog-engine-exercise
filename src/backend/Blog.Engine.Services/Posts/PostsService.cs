@@ -38,7 +38,7 @@ public class PostsService : IPostsService
 
   public async Task<Post> UpdatePostAsync(Post model)
   {
-    await PreSaveValidation(model);
+    await PreSaveValidation(model, true);
 
     var postExists = await _repository.FindPostAsync(model.Title);
     if (postExists is not null && postExists.Id != model.Id)
@@ -61,9 +61,9 @@ public class PostsService : IPostsService
     return await _repository.FindPostAsync(identifier);
   }
 
-  public async Task<Pagination<Post>> SearchPostsAsync(SearchQueryParameters searchParams)
+  public async Task<Pagination<Post>> SearchPostsAsync(SearchQueryParameters searchParams, bool getAll = false)
   {
-    return await _repository.SearchPostsAsync(searchParams);
+    return await _repository.SearchPostsAsync(searchParams, getAll);
   }
 
   public async Task<Pagination<Post>> SearchPostsByCategoryAsync(Guid categoryId, SearchQueryParameters searchParams)
@@ -71,12 +71,12 @@ public class PostsService : IPostsService
     return await _repository.SearchPostsByCategoryAsync(categoryId, searchParams);
   }
 
-  private async Task PreSaveValidation(Post model)
+  private async Task PreSaveValidation(Post model, bool isEdit = false)
   {
     if (model.CategoryId == Guid.Empty
         || string.IsNullOrEmpty(model.Title)
         || string.IsNullOrEmpty(model.Content)
-        || model.PublicationDate < DateOnly.FromDateTime(DateTime.UtcNow))
+        || (!isEdit && model.PublicationDate < DateOnly.FromDateTime(DateTime.Now)))
     {
       throw new ValidationException(
           "api.err.validation.post.fields.required",

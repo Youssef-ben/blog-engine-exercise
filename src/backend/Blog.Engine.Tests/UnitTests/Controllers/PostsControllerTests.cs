@@ -125,7 +125,7 @@ public class PostsControllerTests
     var paginatedList = new Pagination<Post>(postsList, postsList.Count, 1, 25);
 
     _serviceMock
-        .Setup(it => it.SearchPostsAsync(It.IsAny<SearchQueryParameters>()))
+        .Setup(it => it.SearchPostsAsync(It.IsAny<SearchQueryParameters>(), It.IsAny<bool>()))
         .ReturnsAsync(paginatedList);
 
     // Act
@@ -148,11 +148,59 @@ public class PostsControllerTests
     var paginatedList = new Pagination<Post>(new List<Post>(), 0, 1, 25);
 
     _serviceMock
-        .Setup(it => it.SearchPostsAsync(It.IsAny<SearchQueryParameters>()))
+        .Setup(it => it.SearchPostsAsync(It.IsAny<SearchQueryParameters>(), It.IsAny<bool>()))
         .ReturnsAsync(paginatedList);
 
     // Act
     var result = (NoContentResult)await _controller.SearchPostsAsync(new SearchQueryParameters());
+
+    // Assert
+    result.StatusCode
+        .Should()
+        .Be(StatusCodes.Status204NoContent);
+  }
+
+
+  [Fact]
+  public async Task GetPostsAsync_GivenSearchQuery_WhenFetching_ThenPaginatedListOfCategoriesIsReturned()
+  {
+    // Arrange
+    var postsList = new List<Post>
+    {
+      ModelsHelpers.GetPost(Guid.NewGuid()),
+      ModelsHelpers.GetPost(Guid.NewGuid())
+    };
+    var paginatedList = new Pagination<Post>(postsList, postsList.Count, 1, 25);
+
+    _serviceMock
+        .Setup(it => it.SearchPostsAsync(It.IsAny<SearchQueryParameters>(), It.IsAny<bool>()))
+        .ReturnsAsync(paginatedList);
+
+    // Act
+    var result = (OkObjectResult)await _controller.GetPostsAsync(new SearchQueryParameters());
+
+    // Assert
+    result.StatusCode
+        .Should()
+        .Be(StatusCodes.Status200OK);
+    result.Value
+        .Should()
+        .NotBeNull()
+        .And.BeOfType<ApiResponse<Pagination<PostDto>>>();
+  }
+
+  [Fact]
+  public async Task GetPostsAsync_GivenSearchQuery_WhenFetchingAndNoDataFound_ThenEmptyListIsReturned()
+  {
+    // Arrange
+    var paginatedList = new Pagination<Post>(new List<Post>(), 0, 1, 25);
+
+    _serviceMock
+        .Setup(it => it.SearchPostsAsync(It.IsAny<SearchQueryParameters>(), It.IsAny<bool>()))
+        .ReturnsAsync(paginatedList);
+
+    // Act
+    var result = (NoContentResult)await _controller.GetPostsAsync(new SearchQueryParameters());
 
     // Assert
     result.StatusCode

@@ -11,7 +11,7 @@ public interface IPostsRepository
 
   Post UpdatePost(Post entity);
 
-  Task<Pagination<Post>> SearchPostsAsync(SearchQueryParameters searchParams);
+  Task<Pagination<Post>> SearchPostsAsync(SearchQueryParameters searchParams, bool getAll = false);
 
   Task<Pagination<Post>> SearchPostsByCategoryAsync(Guid categoryId, SearchQueryParameters searchParams);
 

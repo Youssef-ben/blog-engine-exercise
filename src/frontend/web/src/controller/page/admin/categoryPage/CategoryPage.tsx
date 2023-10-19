@@ -1,19 +1,19 @@
 import { Col, Container, Row } from 'react-bootstrap';
-import { AddCategoryContainer } from './addCategoryContainer';
-import { EditCategoryContainer } from './editCategoryContainer';
+import { CategoryPageContent } from './categoryPageContent';
+import { CategoryPageHeader } from './categoryPageHeader';
 
 export const CategoryPage = () => {
   return (
     <Container style={{ height: '100%' }}>
       <Row>
         <Col>
-          <AddCategoryContainer />
+          <CategoryPageHeader />
         </Col>
       </Row>
 
       <Row>
         <Col>
-          <EditCategoryContainer />
+          <CategoryPageContent />
         </Col>
       </Row>
     </Container>

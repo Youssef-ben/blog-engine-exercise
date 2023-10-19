@@ -18,7 +18,16 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+
+    "baseUrl": ".",
+    "paths": {
+      "Assets/*": ["./src/assets/*"],
+      "Controller/*": ["./src/controller/*"],
+      "Models/*": ["./src/models/*"],
+      "Views/*": ["./src/views/*"],
+      "App/*": ["./src/*", "./dist/*", ""]
+    }
   },
   "include": ["src/**/*", "./.storybook", "./vite.config.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]

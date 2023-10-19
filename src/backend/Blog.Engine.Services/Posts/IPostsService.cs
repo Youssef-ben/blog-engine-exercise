@@ -11,7 +11,7 @@ public interface IPostsService
 
   Task<Post?> FindPostAsync(string identifier);
 
-  Task<Pagination<Post>> SearchPostsAsync(SearchQueryParameters searchParams);
+  Task<Pagination<Post>> SearchPostsAsync(SearchQueryParameters searchParams, bool getAll = false);
 
   Task<Pagination<Post>> SearchPostsByCategoryAsync(Guid categoryId, SearchQueryParameters searchParams);
 }

@@ -1,6 +1,6 @@
 import { forwardRef } from 'react';
+import { FloatingLabel, Form, FormControlProps } from 'react-bootstrap';
 import DatePicker from 'react-datepicker';
-import { TextInput, TextInputProps } from '../textInput';
 
 import 'react-datepicker/dist/react-datepicker.css';
 import './datePicker.scss';
@@ -18,10 +18,36 @@ export interface AppDatePickerProps {
   onDateChange: (date: Date) => void;
 }
 
-export const AppDatePicker = ({ id, label, isDisabled, value = new Date(), onDateChange }: AppDatePickerProps) => {
-  const CustomDatePickerInput = forwardRef<HTMLTextAreaElement, Partial<TextInputProps>>(({ value, onClick }, ref) => (
-    <TextInput id={id} name={id} ref={ref} label={label} value={value} onClick={onClick} isReadOnly disabled={isDisabled} />
-  ));
+export const AppDatePicker = ({
+  id,
+  label,
+  isDisabled,
+  value = new Date(),
+  onDateChange,
+}: AppDatePickerProps) => {
+  const CustomDatePickerInput = forwardRef<HTMLInputElement, Partial<FormControlProps>>(
+    ({ value, onClick }, ref) => (
+      <>
+        <FloatingLabel label={label} className="mb-3">
+          <Form.Control
+            required
+            readOnly
+            ref={ref}
+            id={id}
+            type="text"
+            name={id}
+            onClick={onClick}
+            disabled={isDisabled}
+            defaultValue={value}
+            placeholder={label}
+            style={{
+              minHeight: '58px',
+            }}
+          />
+        </FloatingLabel>
+      </>
+    )
+  );
 
   return (
     <DatePicker
@@ -29,7 +55,9 @@ export const AppDatePicker = ({ id, label, isDisabled, value = new Date(), onDat
       selected={value}
       dateFormat={DEFAULT_DATE_FORMAT}
       onChange={onDateChange}
-      excludeDateIntervals={[{ start: START_DATE, end: new Date(Date.now() - ONE_DAY_IN_MILLISECONDS) }]}
+      excludeDateIntervals={[
+        { start: START_DATE, end: new Date(Date.now() - ONE_DAY_IN_MILLISECONDS) },
+      ]}
       customInput={<CustomDatePickerInput />}
     />
   );

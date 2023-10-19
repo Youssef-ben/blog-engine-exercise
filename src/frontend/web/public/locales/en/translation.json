@@ -48,10 +48,16 @@
   },
   "api": {
     "err": {
+      "title": "Oops, we've got an error!",
       "validation": {
         "category": {
           "exists": "The category you've entered already exists, please try another one!",
           "notFound": "The category you're looking for doesn't exists, please try another one!"
+        },
+        "post": {
+          "fields": {
+            "required": "All the fields are required!"
+          }
         }
       }
     }
