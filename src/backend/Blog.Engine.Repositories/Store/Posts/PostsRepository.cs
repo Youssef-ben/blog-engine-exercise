@@ -29,6 +29,7 @@ public class PostsRepository : IPostsRepository
 
     return _table
         .Where(post => post.Title.ToLower() == identifier.ToLower())
+        .Include(e => e.Category)
         .AsNoTracking()
         .FirstOrDefaultAsync();
   }
@@ -50,9 +51,10 @@ public class PostsRepository : IPostsRepository
     _dbContext.ChangeTracker.Clear();
   }
 
-  public async Task<Pagination<Post>> SearchPostsAsync(SearchQueryParameters searchParams)
+  public async Task<Pagination<Post>> SearchPostsAsync(SearchQueryParameters searchParams, bool getAll = false)
   {
-    return await GetSearchPostsQueryAsync(searchParams)
+    return await GetSearchPostsQueryAsync(searchParams, getAll)
+               .Include(e => e.Category)
                .ToPaginationAsync(searchParams.PageNumber, searchParams.RecordsPerPage);
   }
 
@@ -62,16 +64,21 @@ public class PostsRepository : IPostsRepository
   {
     return await GetSearchPostsQueryAsync(searchParams)
                .Where(post => post.CategoryId == categoryId)
+               .Include(e => e.Category)
                .ToPaginationAsync(searchParams.PageNumber, searchParams.RecordsPerPage);
   }
 
-  private IQueryable<Post> GetSearchPostsQueryAsync(SearchQueryParameters searchParams)
+  private IQueryable<Post> GetSearchPostsQueryAsync(SearchQueryParameters searchParams, bool getAll = false)
   {
-    var rr = DateOnly.FromDateTime(DateTime.UtcNow);
-    var queryable = _table.GetQuery()
+    IQueryable<Post> queryable = _table.GetQuery()
         .OrderByDescending(x => x.PublicationDate)
-        .ThenBy(x => x.Title)
-        .Where(x => x.PublicationDate <= DateOnly.FromDateTime(DateTime.UtcNow));
+        .ThenBy(x => x.Title);
+
+    if (!getAll)
+    {
+      queryable = queryable.Where(x => x.PublicationDate <= DateOnly.FromDateTime(DateTime.UtcNow));
+    }
+
 
     if (!string.IsNullOrWhiteSpace(searchParams.Keyword))
     {

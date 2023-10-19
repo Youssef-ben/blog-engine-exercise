@@ -1,19 +1,19 @@
 import { Col, Container, Row } from 'react-bootstrap';
-import { AddPostContainer } from './addPostContainer';
-import { EditPostContainer } from './editPostContainer';
+import { PostPageContent } from './postPageContent';
+import { PostPageHeader } from './postPageHeader';
 
 export const PostsPage = () => {
   return (
     <Container style={{ height: '100%' }}>
       <Row>
         <Col>
-          <AddPostContainer />
+          <PostPageHeader />
         </Col>
       </Row>
 
       <Row>
         <Col>
-          <EditPostContainer />
+          <PostPageContent />
         </Col>
       </Row>
     </Container>

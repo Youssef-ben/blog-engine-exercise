@@ -1,6 +1,6 @@
 import { CSSProperties } from 'react';
 import { Button } from 'react-bootstrap';
-import { AppLoader } from '../appLoader';
+import { AppLoader } from 'Views/shared/appLoader';
 
 export interface SimpleButtonProps {
   label: string;
@@ -10,7 +10,13 @@ export interface SimpleButtonProps {
   onClick?: () => void;
 }
 
-export const SimpleButton = ({ label, isLoading, isDisabled, variant = 'primary', onClick }: SimpleButtonProps) => {
+export const SimpleButton = ({
+  label,
+  isLoading,
+  isDisabled,
+  variant = 'primary',
+  onClick,
+}: SimpleButtonProps) => {
   return (
     <Button
       type="submit"

@@ -14,6 +14,8 @@ public class PostDto
 
   public DateOnly PublicationDate { get; set; }
 
+  public CategoryDto? Category { get; set; }
+
   public static PostDto Map(Post model)
   {
     return new PostDto
@@ -22,7 +24,8 @@ public class PostDto
       Title = model.Title,
       Content = model.Content,
       CategoryId = model.CategoryId,
-      PublicationDate = model.PublicationDate
+      PublicationDate = model.PublicationDate,
+      Category = CategoryDto.Map(model.Category ?? new Category())
     };
   }
 

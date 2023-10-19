@@ -24,7 +24,7 @@ export const AppModal = ({
   onSecondaryButtonClick,
 }: AppModalProps) => {
   return (
-    <Modal show={isOpen} onHide={onSecondaryButtonClick} backdrop="static">
+    <Modal backdrop="static" show={isOpen} onHide={onSecondaryButtonClick}>
       <Modal.Header closeButton={!isLoading}>
         <Modal.Title>{modalTitle}</Modal.Title>
       </Modal.Header>
@@ -32,7 +32,13 @@ export const AppModal = ({
       <Modal.Body>{children}</Modal.Body>
 
       <Modal.Footer>
-        <SimpleButton label={primaryButtonLabel} variant="primary" isLoading={isLoading} isDisabled={isDisabled} onClick={onPrimaryButtonClick} />
+        <SimpleButton
+          label={primaryButtonLabel}
+          variant="primary"
+          isLoading={isLoading}
+          isDisabled={isDisabled}
+          onClick={onPrimaryButtonClick}
+        />
       </Modal.Footer>
     </Modal>
   );

@@ -1,21 +1,29 @@
 import { CSSProperties } from 'react';
 import { Card } from 'react-bootstrap';
 
-import './postItem.scss';
-
 export interface PostItemProps {
   id: string;
   title: string;
+  categoryTitle: string;
   publicationDate: string;
   onClick?: (id: string) => void;
 }
 
-export const PostItem = ({ id, title, publicationDate, onClick }: PostItemProps) => {
+export const PostItem = ({ id, title, categoryTitle, publicationDate, onClick }: PostItemProps) => {
   return (
-    <Card className="categoryItem" style={styles.card} onClick={() => onClick && onClick(id)}>
+    <Card
+      className="add-shadow-on-hover"
+      style={styles.card}
+      onClick={() => onClick && onClick(id)}
+    >
       <Card.Body style={styles.body}>
         <div>
           <Card.Title style={styles.title}>{title}</Card.Title>
+          <Card.Subtitle className="text-muted" style={styles.subTitle}>
+            {categoryTitle}
+          </Card.Subtitle>
+        </div>
+        <div style={styles.dateWrapper}>
           <Card.Subtitle className="text-muted" style={styles.subTitle}>
             {publicationDate}
           </Card.Subtitle>
@@ -30,12 +38,15 @@ interface CategoryItemStyles {
   body: CSSProperties;
   title: CSSProperties;
   subTitle: CSSProperties;
+  dateWrapper: CSSProperties;
 }
 
 const styles: CategoryItemStyles = {
   card: {
     marginBottom: 8,
     cursor: 'pointer',
+    paddingRight: 8,
+    paddingLeft: 8,
   },
   body: {
     display: 'flex',
@@ -49,5 +60,11 @@ const styles: CategoryItemStyles = {
   },
   subTitle: {
     fontSize: '0.8rem',
+  },
+  dateWrapper: {
+    display: 'flex',
+    alignItems: 'center',
+    alignSelf: 'center',
+    paddingTop: 4,
   },
 };

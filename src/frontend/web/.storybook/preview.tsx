@@ -1,4 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
+import '../src/main.scss';
 
 import { PartialStoryFn, StoryContext } from '@storybook/csf';
 import type { Args, Preview, ReactRenderer } from '@storybook/react';
@@ -34,7 +35,10 @@ export const globalTypes = {
   },
 };
 
-const withProviders = (Story: PartialStoryFn<ReactRenderer, Args>, context: StoryContext<ReactRenderer, Args>) => {
+const withProviders = (
+  Story: PartialStoryFn<ReactRenderer, Args>,
+  context: StoryContext<ReactRenderer, Args>
+) => {
   const { locale } = context.globals;
   void i18n.changeLanguage(locale as string);
 

@@ -70,6 +70,25 @@ public class PostsController : BaseController
   }
 
   /// <summary>
+  ///   Fetches the list of available posts ordered by date and title
+  /// </summary>
+  /// <returns>The list of posts</returns>
+  /// <response code="200">{Success} - The list of posts.</response>
+  /// <response code="204">{No Content} - No data was found.</response>
+  /// <response code="500">{Server Error} - An Internal server error occurred.</response>
+  [HttpGet("admin")]
+  [ProducesResponseType(typeof(ApiResponse<Pagination<PostDto>>), StatusCodes.Status200OK)]
+  [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status204NoContent)]
+  [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status500InternalServerError)]
+  public async Task<IActionResult> GetPostsAsync([FromQuery] SearchQueryParameters searchParams)
+  {
+    var postsList = await _service.SearchPostsAsync(searchParams, true);
+    return postsList.TotalRecords == 0
+               ? NoContent()
+               : ReturnSuccess(PostDto.Map(postsList));
+  }
+
+  /// <summary>
   ///   Fetch the specified Post
   /// </summary>
   /// <param name="identifier">The Post Id or title.</param>

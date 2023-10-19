@@ -225,7 +225,7 @@ public class PostsServiceTests
     };
 
     _repositoryMock
-        .Setup(it => it.SearchPostsAsync(It.IsAny<SearchQueryParameters>()))
+        .Setup(it => it.SearchPostsAsync(It.IsAny<SearchQueryParameters>(), It.IsAny<bool>()))
         .ReturnsAsync(new Pagination<Post>(postsList, postsList.Count, 1, 25));
 
     // Act

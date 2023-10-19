@@ -3,7 +3,7 @@ interface UpdateNotifierSubscriber {
   callback: () => void;
 }
 
-type ChangeTypes = 'category' | 'posts';
+type ChangeTypes = 'categories' | 'posts';
 
 /**
  * This is a little hack to force the category and post list to update
