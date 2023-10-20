@@ -2,11 +2,12 @@ import { CSSProperties } from 'react';
 import { Form, InputGroup } from 'react-bootstrap';
 
 export interface SearchBarProps {
+  value?: string;
   placeholder: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export const SearchBar = ({ placeholder, onChange }: SearchBarProps) => {
+export const SearchBar = ({ value, placeholder, onChange }: SearchBarProps) => {
   return (
     <div style={styles.search}>
       <InputGroup className="mb-0" style={styles.searchInput}>
@@ -18,6 +19,7 @@ export const SearchBar = ({ placeholder, onChange }: SearchBarProps) => {
           placeholder={placeholder}
           aria-label="search"
           aria-describedby="search box"
+          value={value}
           onChange={onChange}
         />
       </InputGroup>

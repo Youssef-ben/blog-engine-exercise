@@ -26,7 +26,7 @@ public class BaseController : ControllerBase
   {
     var response = new ErrorResponse
     {
-      Code = "api.error.notFound",
+      Code = "api.err.notFound",
       UserMessage = "Not Found - The element you're looking for was not found"
     };
     return NotFound(response);

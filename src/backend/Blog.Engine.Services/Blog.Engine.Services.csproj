@@ -13,8 +13,4 @@
     <ProjectReference Include="..\Blog.Engine.Repositories\Blog.Engine.Repositories.csproj"/>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Utils\"/>
-  </ItemGroup>
-
 </Project>

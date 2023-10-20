@@ -1,11 +1,9 @@
+import { useCategoryService } from 'Controller/service/categoryService';
+import { usePostService } from 'Controller/service/postService';
 import { UpdateNotifier } from 'Controller/utils/UpdateNotifier';
-import { API_URL, convertDateToString } from 'Controller/utils/constants';
-import { getErrorMessage } from 'Controller/utils/responseHelpers';
-import { Category } from 'Models/category';
+import { convertDateToString } from 'Controller/utils/constants';
 import { Post } from 'Models/post';
-import { ApiResponse, Pagination } from 'Models/response';
 import { AppModalProps } from 'Views/shared';
-import axios from 'axios';
 import { FormikErrors, useFormik } from 'formik';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -36,7 +34,6 @@ export interface UsePostFormContainerData {
   selectOptionProps: PostModalCategories;
   formProps: {
     values: Post;
-    apiError: string;
     errors: FormikErrors<Post>;
     handleChange: {
       (e: React.ChangeEvent<any>): void;
@@ -54,7 +51,9 @@ export const usePostFormContainer = ({
 }: PostFormContainerProps): UsePostFormContainerData => {
   const { t } = useTranslation();
 
-  const [apiError, setApiError] = useState<string>('');
+  const { fetchCategoriesAsync } = useCategoryService();
+  const { savePostAsync, fetchPostByIdAsync } = usePostService();
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [postCategories, setPostCategories] = useState<PostCategoryOption[]>([]);
 
@@ -70,7 +69,7 @@ export const usePostFormContainer = ({
       onSubmit: async () => {
         setIsLoading(true);
 
-        if (!(await savePostAsync())) {
+        if (!(await savePostAsync(values, !!postId))) {
           setIsLoading(false);
           return;
         }
@@ -80,88 +79,56 @@ export const usePostFormContainer = ({
     });
 
   useEffect(() => {
-    fetchCategoriesAsync();
+    getCategoriesAsync();
 
     /**
      * This normally should be a websocket connection with the web api
      * But for the purpose of this exercise we added a little pub/sub handler.
      */
     UpdateNotifier.subscribe('categories', async () => {
-      await fetchCategoriesAsync();
+      await getCategoriesAsync();
     });
   }, []);
 
   useEffect(() => {
     if (postId) {
-      fetchPostByIdAsync();
+      getPostByIdAsync();
     }
   }, [postId]);
 
-  const fetchCategoriesAsync = async () => {
+  const getCategoriesAsync = async () => {
     setIsLoading(true);
 
-    try {
-      const { data } = await axios<ApiResponse<Pagination<Category>>>({
-        method: 'GET',
-        url: `${API_URL}/categories?recordsPerPage=100`,
-      });
-
-      if (data) {
-        const postCategoriesOption = data.results.records.map((category) => {
-          return {
-            value: category.id,
-            label: category.title,
-          };
-        });
-
-        setPostCategories(postCategoriesOption);
-      }
-    } catch (error: any) {
-      return [];
-    }
+    const result = await fetchCategoriesAsync();
+    const postCategoriesOption = result.records.map((category) => {
+      return {
+        value: category.id,
+        label: category.title,
+      };
+    });
+    setPostCategories(postCategoriesOption);
 
     setIsLoading(false);
   };
 
-  const fetchPostByIdAsync = async () => {
-    try {
-      const result = await axios<ApiResponse<Post>>({
-        method: 'GET',
-        url: `${API_URL}/posts/${postId}`,
-      });
-
-      if (result.status === 200) {
-        const { results } = result.data;
-        setValues({
-          id: results.id,
-          title: results.title,
-          content: results.content,
-          categoryId: results.categoryId,
-          publicationDate: results.publicationDate,
-        });
+  const getPostByIdAsync = async () => {
+    if (postId) {
+      setIsLoading(true);
+      const result = await fetchPostByIdAsync(postId);
+      if (!result) {
+        handleOnSecondaryButtonClick();
+        return;
       }
-    } catch (err: any) {
-      setApiError(t(getErrorMessage(err)));
-    }
-  };
 
-  const savePostAsync = async () => {
-    console.log(values);
-    try {
-      await axios<Post, ApiResponse<Post>>({
-        method: postId ? 'PUT' : 'POST',
-        url: `${API_URL}/posts/admin`,
-        data: {
-          ...values,
-          id: postId || '',
-        },
+      setValues({
+        id: result.id,
+        title: result.title,
+        content: result.content,
+        categoryId: result.categoryId,
+        publicationDate: result.publicationDate,
       });
 
-      UpdateNotifier.notify('posts');
-      return true;
-    } catch (err: any) {
-      setApiError(t(getErrorMessage(err)));
-      return false;
+      setIsLoading(false);
     }
   };
 
@@ -187,7 +154,6 @@ export const usePostFormContainer = ({
     formProps: {
       values,
       errors,
-      apiError,
       handleChange,
     },
     selectOptionProps: {

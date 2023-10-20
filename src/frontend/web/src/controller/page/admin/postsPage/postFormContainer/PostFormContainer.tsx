@@ -1,7 +1,7 @@
 import { convertDateToString, convertStringToDate } from 'Controller/utils/constants';
 import { AppDatePicker } from 'Views/shared';
 import { AppModal } from 'Views/shared/appModal/AppModal';
-import { Alert, FloatingLabel, Form } from 'react-bootstrap';
+import { FloatingLabel, Form } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import Select from 'react-select';
 import { usePostFormContainer } from './usePostFormContainer';
@@ -25,7 +25,7 @@ export const PostFormContainer = ({
     handleIsModalOpen,
   });
 
-  const { values, errors, apiError, handleChange } = formProps;
+  const { values, errors, handleChange } = formProps;
 
   return (
     <Form>
@@ -99,14 +99,6 @@ export const PostFormContainer = ({
             {errors.content && <div style={styles.invalidInputLabel}>{errors.content}</div>}
           </FloatingLabel>
         </Form.Group>
-        {apiError && (
-          <Alert variant="danger" style={{ marginBottom: 0, padding: '5px 8px 5px 8px' }}>
-            <h6>{t('api.err.title')}</h6>
-            <ul style={{ marginBottom: 0, fontSize: '0.9rem' }}>
-              <li>{apiError}</li>
-            </ul>
-          </Alert>
-        )}
       </AppModal>
     </Form>
   );
