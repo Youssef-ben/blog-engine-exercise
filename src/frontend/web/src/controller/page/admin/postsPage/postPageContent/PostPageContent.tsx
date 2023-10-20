@@ -11,7 +11,17 @@ export const PostPageContent = () => {
   return (
     <>
       <Row>
-        <SearchBar {...searchProps} />
+        <div
+          style={{
+            marginRight: 'auto',
+            marginLeft: 'auto',
+            width: '70%',
+            marginTop: '8px',
+            marginBottom: '30px',
+          }}
+        >
+          <SearchBar {...searchProps} />
+        </div>
       </Row>
       <Row>
         <Col>{isLoading ? <AppLoader variant="primary" /> : <PostsList {...postsListProps} />}</Col>

@@ -1,6 +1,8 @@
 {
   "app": {
-    "title": "Moteur de blogs"
+    "title": "Moteur de blogs",
+    "admin": "Administrateur",
+    "user": "Utilisateur"
   },
   "common": {
     "save": "Sauvegarder",

@@ -55,7 +55,6 @@ const styles: CategoryItemStyles = {
   },
   title: {
     marginBottom: 8,
-    textTransform: 'capitalize',
     textDecoration: 'underline',
   },
   subTitle: {

@@ -1,5 +1,5 @@
 import { Button, Container, Form, Nav, Navbar } from 'react-bootstrap';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 
 import { useTranslation } from 'react-i18next';
 import Logo from '../../../assets/logo.svg';
@@ -7,6 +7,7 @@ import { usePageContainer } from './usePageContainer';
 
 export const PageContainer = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const { language, onLanguageChange } = usePageContainer();
 
@@ -21,7 +22,8 @@ export const PageContainer = () => {
       >
         <Container fluid>
           <Navbar.Brand href="#home">
-            <img alt="" src={Logo} width="30" height="30" className="d-inline-block align-top" /> {t('app.title')}
+            <img alt="" src={Logo} width="30" height="30" className="d-inline-block align-top" />{' '}
+            {t('app.title')}
           </Navbar.Brand>
 
           <Navbar.Collapse id="navbarScroll">
@@ -29,11 +31,50 @@ export const PageContainer = () => {
             <Form className="d-flex">
               <Button
                 variant="outline "
-                style={{ textTransform: 'uppercase', textDecoration: 'underline', fontWeight: '500' }}
-                onClick={onLanguageChange}
+                style={{
+                  textTransform: 'uppercase',
+                  textDecoration: 'underline',
+                  fontWeight: '500',
+                }}
+                onClick={() => {
+                  navigate('/');
+                }}
               >
-                {language}
+                {t('app.user')}
               </Button>
+
+              <Button
+                variant="outline "
+                style={{
+                  textTransform: 'uppercase',
+                  textDecoration: 'underline',
+                  fontWeight: '500',
+                }}
+                onClick={() => {
+                  navigate('admin');
+                }}
+              >
+                {t('app.admin')}
+              </Button>
+
+              <div
+                style={{
+                  borderLeft: '1px solid grey',
+                  borderRadius: 0,
+                }}
+              >
+                <Button
+                  variant="outline "
+                  style={{
+                    textTransform: 'uppercase',
+                    textDecoration: 'underline',
+                    fontWeight: '500',
+                  }}
+                  onClick={onLanguageChange}
+                >
+                  {language}
+                </Button>
+              </div>
             </Form>
           </Navbar.Collapse>
         </Container>

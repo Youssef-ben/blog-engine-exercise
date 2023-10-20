@@ -55,6 +55,6 @@ if ([string]::IsNullOrEmpty($Env:PGADMIN_PASSWORD) -Or [string]::IsNullOrEmpty($
  
 Set-Location -Path $DOCKER_FOLDER_PATH
 
-docker compose up --build -d
+docker compose up --build --force-recreate -d
 
 Set-Location -Path $SCRIPT_ROOT_PATH
