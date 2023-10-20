@@ -12,3 +12,11 @@
 .add-shadow-on-hover:hover {
   box-shadow: black 0px 0px 12px -7px;
 }
+
+.ellipsis-2 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

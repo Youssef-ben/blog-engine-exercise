@@ -27,11 +27,12 @@ const App = () => {
           setMessage('');
         }}
         show={show}
-        delay={3000}
+        delay={5000}
         style={{
           position: 'absolute',
           bottom: '20px',
           right: '20px',
+          zIndex: 99999,
         }}
       >
         <Toast.Header>

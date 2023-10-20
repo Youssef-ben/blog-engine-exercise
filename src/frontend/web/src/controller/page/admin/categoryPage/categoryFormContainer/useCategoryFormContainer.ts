@@ -1,10 +1,6 @@
-import { UpdateNotifier } from 'Controller/utils/UpdateNotifier';
-import { API_URL } from 'Controller/utils/constants';
-import { getErrorMessage } from 'Controller/utils/responseHelpers';
+import { useCategoryService } from 'Controller/service/categoryService';
 import { Category } from 'Models/category';
-import { ApiResponse } from 'Models/response';
 import { AppModalProps } from 'Views/shared';
-import axios from 'axios';
 import { FormikErrors, useFormik } from 'formik';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -21,7 +17,7 @@ export interface UseCategoryFormContainerData {
   appModalProps: AppModalProps;
   formProps: {
     values: Category;
-    apiError: string;
+    apiError?: string;
     errors: FormikErrors<Category>;
     handleChange: {
       (e: React.ChangeEvent<any>): void;
@@ -39,7 +35,8 @@ export const useCategoryFormContainer = ({
 }: CategoryFormContainerProps): UseCategoryFormContainerData => {
   const { t } = useTranslation();
 
-  const [apiError, setApiError] = useState<string>('');
+  const { saveCategoryAsync, fetchCategoryByIdAsync } = useCategoryService();
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const { values, errors, isValid, setValues, handleSubmit, handleChange, resetForm } =
@@ -51,7 +48,7 @@ export const useCategoryFormContainer = ({
       onSubmit: async () => {
         setIsLoading(true);
 
-        if (!(await saveCategoryAsync())) {
+        if (!(await saveCategoryAsync(values, !!categoryId))) {
           setIsLoading(false);
           return;
         }
@@ -61,46 +58,24 @@ export const useCategoryFormContainer = ({
     });
 
   useEffect(() => {
-    if (categoryId) {
-      fetchCategoryByIdAsync();
-    }
+    getCategoryByIdAsync();
   }, [categoryId]);
 
-  const fetchCategoryByIdAsync = async () => {
-    try {
-      const result = await axios<ApiResponse<Category>>({
-        method: 'GET',
-        url: `${API_URL}/categories/${categoryId}`,
-      });
-
-      if (result.status === 200) {
-        const { results } = result.data;
-        setValues({
-          id: results.id,
-          title: results.title,
-        });
+  const getCategoryByIdAsync = async () => {
+    if (categoryId) {
+      setIsLoading(true);
+      const result = await fetchCategoryByIdAsync(categoryId);
+      if (!result) {
+        handleOnSecondaryButtonClick();
+        return;
       }
-    } catch (err: any) {
-      setApiError(t(getErrorMessage(err)));
-    }
-  };
 
-  const saveCategoryAsync = async () => {
-    try {
-      await axios<Category, ApiResponse<Category>>({
-        method: categoryId ? 'PUT' : 'POST',
-        url: `${API_URL}/categories/admin`,
-        data: {
-          ...values,
-        },
+      setValues({
+        id: result.id,
+        title: result.title,
       });
 
-      UpdateNotifier.notify('posts');
-      UpdateNotifier.notify('categories');
-      return true;
-    } catch (err: any) {
-      setApiError(t(getErrorMessage(err)));
-      return false;
+      setIsLoading(false);
     }
   };
 
@@ -115,7 +90,6 @@ export const useCategoryFormContainer = ({
     formProps: {
       values,
       errors,
-      apiError,
       handleChange,
     },
     appModalProps: {

@@ -1,16 +1,13 @@
-import { useErrorsContext } from 'Controller/provider';
-import { fetchCategoriesAsync } from 'Controller/service/categoryService';
+import { useCategoryService } from 'Controller/service/categoryService';
 import { UpdateNotifier } from 'Controller/utils/UpdateNotifier';
-import { API_URL } from 'Controller/utils/constants';
-import { getErrorMessage } from 'Controller/utils/responseHelpers';
-import { CategoryPosts } from 'Models/category';
-import { ApiResponse, EMPTY_PAGINATION_VALUES } from 'Models/response';
+import { Category, CategoryPosts } from 'Models/category';
+import { EMPTY_PAGINATION_VALUES, Pagination } from 'Models/response';
 import { PostCardProps } from 'Views/post';
 import { PostCardListProps } from 'Views/post/postCardList';
-import axios from 'axios';
 import { debounce } from 'lodash';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { PostCategoryOption, UserPageHeaderProps } from './userPageHeader/UserPageHeader';
 
 export interface UseUserPageData {
@@ -21,20 +18,18 @@ export interface UseUserPageData {
 
 export const useUserPage = (): UseUserPageData => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
-  const { setMessage } = useErrorsContext();
+  const { fetchCategoriesAsync, searchCategoryPostsAsync } = useCategoryService();
 
+  const [keyword, setKeyword] = useState<string>('');
+  const [category, setCategory] = useState<Category>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [categoryOption, setCategoryOption] = useState<PostCategoryOption>();
-  const [categoryOptions, setCategoryOptions] = useState<PostCategoryOption[]>([]);
+  const [categories, setCategories] = useState<Pagination<Category>>(EMPTY_PAGINATION_VALUES);
   const [categoryPosts, setCategoryPosts] = useState<CategoryPosts>();
 
   useEffect(() => {
-    getCategoriesAsync().then((data) => {
-      if (data && data.length > 0) {
-        setCategoryOption(data[0]);
-      }
-    });
+    getCategoriesAsync();
 
     /**
      * This normally should be a websocket connection with the web api
@@ -46,49 +41,39 @@ export const useUserPage = (): UseUserPageData => {
   }, []);
 
   useEffect(() => {
-    if (categoryOption) {
-      console.log('Fetch the category posts', categoryOption.label);
+    if (category) {
       fetchCategoryPostsAsync('');
     }
-  }, [categoryOption]);
+  }, [category]);
 
   const getCategoriesAsync = async () => {
     setIsLoading(true);
 
     const result = await fetchCategoriesAsync();
-    setCategoryOptions(result);
+    setCategories(result);
+
+    if (!category && result.totalRecords > 0) {
+      setCategory(result.records[0]);
+    }
 
     setIsLoading(false);
-
     return result;
   };
 
   const fetchCategoryPostsAsync = async (keyword: string) => {
     setIsLoading(true);
-
-    try {
-      const { data, status } = await axios<ApiResponse<CategoryPosts>>({
-        method: 'GET',
-        url: `${API_URL}/categories/${
-          categoryOption?.value
-        }/posts?pageNumber=1&recordsPerPage=100&keyword=*${keyword || ''}*`,
+    if (!category) {
+      setIsLoading(false);
+      setCategoryPosts({
+        id: '',
+        title: '',
+        posts: EMPTY_PAGINATION_VALUES,
       });
-
-      if (status === 204) {
-        setCategoryPosts({
-          id: categoryOption?.value || '',
-          title: categoryOption?.label || '',
-          posts: EMPTY_PAGINATION_VALUES,
-        });
-      }
-
-      if (data) {
-        setCategoryPosts(data.results);
-      }
-    } catch (error: any) {
-      console.error(t(getErrorMessage(error)));
-      setMessage(t(getErrorMessage(error)));
+      return;
     }
+
+    const data = await searchCategoryPostsAsync(category.id, keyword);
+    setCategoryPosts(data);
 
     setIsLoading(false);
   };
@@ -111,31 +96,57 @@ export const useUserPage = (): UseUserPageData => {
     });
   };
 
+  const getCategoriesOptions = (): PostCategoryOption[] => {
+    return categories.records.map((category) => {
+      return {
+        value: category.id,
+        label: category.title,
+      };
+    });
+  };
+
+  const getSelectedCategoryOption = (): PostCategoryOption | undefined => {
+    if (category) {
+      return {
+        value: category.id,
+        label: category.title,
+      };
+    }
+    return undefined;
+  };
+
   const debouncedSearch = debounce(async (keyword: string) => {
     await fetchCategoryPostsAsync(keyword);
   }, 300);
 
   return {
     isLoading,
-
     userPageHeaderProps: {
       categorySelectorProps: {
-        selected: categoryOption,
-        categories: categoryOptions,
+        selected: getSelectedCategoryOption(),
+        categories: getCategoriesOptions(),
         onChange: (option: PostCategoryOption) => {
-          setCategoryOption(option);
+          setCategory({
+            id: option.value,
+            title: option.label,
+          });
+          setKeyword('');
         },
       },
       searchProps: {
+        value: keyword,
         placeholder: t('post.list.search'),
         onChange: (event) => {
           debouncedSearch(event.target.value);
+          setKeyword(event.target.value);
         },
       },
     },
     postCardListProps: {
       posts: getPostsList(),
-      onClick: (id: string) => {},
+      onClick: (id: string) => {
+        navigate(`/${id}`);
+      },
     },
   };
 };

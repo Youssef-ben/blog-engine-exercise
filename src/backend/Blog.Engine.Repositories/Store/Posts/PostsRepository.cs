@@ -23,6 +23,7 @@ public class PostsRepository : IPostsRepository
     {
       return _table
           .Where(post => post.Id == id)
+          .Include(e => e.Category)
           .AsNoTracking()
           .FirstOrDefaultAsync();
     }

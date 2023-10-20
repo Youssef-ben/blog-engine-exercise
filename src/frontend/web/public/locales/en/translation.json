@@ -52,6 +52,7 @@
   },
   "api": {
     "err": {
+      "notFound": "The element you're looking for doesn't exists, please try another one!",
       "title": "Oops, we've got an error!",
       "validation": {
         "category": {
@@ -59,6 +60,8 @@
           "notFound": "The category you're looking for doesn't exists, please try another one!"
         },
         "post": {
+          "exists": "The post you've entered already exists, please try another one!",
+          "notFound": "The post you're looking for doesn't exists, please try another one!",
           "fields": {
             "required": "All the fields are required!"
           }

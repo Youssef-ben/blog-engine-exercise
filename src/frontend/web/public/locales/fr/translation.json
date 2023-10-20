@@ -53,6 +53,7 @@
   },
   "api": {
     "err": {
+      "notFound": "L'élément que vous recherchez n'existe pas, SVP essayez-en un autre !",
       "title": "Oups, nous avons une erreur !",
       "validation": {
         "category": {
@@ -60,6 +61,8 @@
           "notFound": "La catégorie que vous recherchez n'existe pas, essayez-en une autre !"
         },
         "post": {
+          "exists": "Le poste que vous avez saisie existe déjà, essayez-en une autre !",
+          "notFound": "Le poste que vous recherchez n'existe pas, essayez-en une autre !",
           "fields": {
             "required": "Tous les champs sont obligatoires !"
           }

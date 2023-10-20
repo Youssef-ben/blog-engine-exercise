@@ -73,10 +73,11 @@ public class PostsService : IPostsService
 
   private async Task PreSaveValidation(Post model, bool isEdit = false)
   {
+    var today = DateTime.Now;
     if (model.CategoryId == Guid.Empty
         || string.IsNullOrEmpty(model.Title)
         || string.IsNullOrEmpty(model.Content)
-        || (!isEdit && model.PublicationDate < DateOnly.FromDateTime(DateTime.Now)))
+        || (!isEdit && model.PublicationDate < new DateOnly(today.Year, today.Month, today.Day)))
     {
       throw new ValidationException(
           "api.err.validation.post.fields.required",

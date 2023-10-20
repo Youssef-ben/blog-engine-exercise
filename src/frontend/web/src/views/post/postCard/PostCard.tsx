@@ -26,7 +26,7 @@ export const PostCard = ({
   >
     <Card.Body>
       <Card.Title>{title}</Card.Title>
-      <Card.Text>{content}</Card.Text>
+      <Card.Text className="ellipsis-2">{content}</Card.Text>
     </Card.Body>
     <Card.Footer>
       <div
