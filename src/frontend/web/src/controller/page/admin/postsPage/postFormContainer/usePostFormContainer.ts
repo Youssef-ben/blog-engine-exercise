@@ -1,7 +1,6 @@
 import { useCategoryService } from 'Controller/service/categoryService';
 import { usePostService } from 'Controller/service/postService';
-import { UpdateNotifier } from 'Controller/utils/UpdateNotifier';
-import { convertDateToString } from 'Controller/utils/constants';
+import { UpdateNotifier, convertDateToString } from 'Controller/utils';
 import { Post } from 'Models/post';
 import { AppModalProps } from 'Views/shared';
 import { FormikErrors, useFormik } from 'formik';

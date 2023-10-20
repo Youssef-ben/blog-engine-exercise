@@ -43,7 +43,8 @@ services:
       - ${BLOG_ENGINE_API_PORT}:80
 
     volumes:
-      - ../src/backend/Blog.Engine.Api/appsettings.Development.json/:/app/appsettings.json:ro
+      - ../src/backend/Blog.Engine.Api/appsettings.json/:/app/appsettings.json:ro
+      - ../src/backend/Blog.Engine.Api/appsettings.${ENVIRONEMENT}.json/:/app/appsettings.${ENVIRONEMENT}.json:ro
 
     networks:
       - blog-engine

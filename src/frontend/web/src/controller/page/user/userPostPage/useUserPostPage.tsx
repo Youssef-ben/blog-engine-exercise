@@ -35,6 +35,7 @@ export const useUserPostPage = (): UseUserPostPageData => {
         }
 
         setPost(data);
+        setIsLoading(false);
       });
       return;
     }

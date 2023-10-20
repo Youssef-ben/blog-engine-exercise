@@ -1,8 +1,8 @@
 {
   "app": {
     "title": "Moteur de blogs",
-    "admin": "Administrateur",
-    "user": "Utilisateur"
+    "login": "Connexion",
+    "logout": "Déconnexion"
   },
   "common": {
     "save": "Sauvegarder",
