@@ -21,7 +21,10 @@ public class PostsRepositoryTests : IClassFixture<DatabaseFixture>
   public async Task GivenPost_WhenCreating_ThenPostIsCreated()
   {
     // Arrange
+    var categoryModel = ModelsHelpers.GetCategory("Test");
     var model = ModelsHelpers.GetPost(Guid.NewGuid());
+    model.CategoryId = categoryModel.Id;
+    model.Category = categoryModel;
 
     // Act
     var result = await _repository.CreatePostAsync(model);
@@ -56,7 +59,10 @@ public class PostsRepositoryTests : IClassFixture<DatabaseFixture>
   public async Task GivenPostId_WhenFetching_ThenPostIsReturned()
   {
     // Arrange
+    var categoryModel = ModelsHelpers.GetCategory("Test");
     var model = ModelsHelpers.GetPost(Guid.NewGuid());
+    model.CategoryId = categoryModel.Id;
+    model.Category = categoryModel;
     model = await _repository.CreatePostAsync(model);
     await _repository.ApplyChangesAsync();
 
@@ -71,8 +77,11 @@ public class PostsRepositoryTests : IClassFixture<DatabaseFixture>
   public async Task GivenPost_WhenUpdating_ThenPostIsUpdated()
   {
     // Arrange
+    var categoryModel = ModelsHelpers.GetCategory("Test");
     const string title = "Post Title 1";
     var model = ModelsHelpers.GetPost(Guid.NewGuid(), title);
+    model.CategoryId = categoryModel.Id;
+    model.Category = categoryModel;
     model = await _repository.CreatePostAsync(model);
     await _repository.ApplyChangesAsync();
 
