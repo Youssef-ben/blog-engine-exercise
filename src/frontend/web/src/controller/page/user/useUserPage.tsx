@@ -1,5 +1,5 @@
 import { useCategoryService } from 'Controller/service/categoryService';
-import { UpdateNotifier } from 'Controller/utils/UpdateNotifier';
+import { UpdateNotifier } from 'Controller/utils';
 import { Category, CategoryPosts } from 'Models/category';
 import { EMPTY_PAGINATION_VALUES, Pagination } from 'Models/response';
 import { PostCardProps } from 'Views/post';

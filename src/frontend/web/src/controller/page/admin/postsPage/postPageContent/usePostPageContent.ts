@@ -1,5 +1,5 @@
 import { usePostService } from 'Controller/service/postService';
-import { UpdateNotifier } from 'Controller/utils/UpdateNotifier';
+import { UpdateNotifier } from 'Controller/utils';
 import { Post } from 'Models/post';
 import { Pagination } from 'Models/response';
 import { PostItemProps, PostsListProps } from 'Views/post';

@@ -5,8 +5,13 @@ import { useUserPostPage } from './useUserPostPage';
 export const UserPostPage = () => {
   const { isLoading, post } = useUserPostPage();
   if (isLoading) {
-    <AppLoader />;
+    return (
+      <div style={{ padding: 32 }}>
+        <AppLoader variant="primary" />
+      </div>
+    );
   }
+
   return (
     <Container
       style={{
