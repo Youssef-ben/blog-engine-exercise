@@ -29,5 +29,5 @@ if(!$args[0]){
 }
 
 if ($OpenReportInWindow){
-  &'C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe' @("$BACKEND_FOLDER/TestResults/.coverage/index.html")
+  start chrome @("$BACKEND_FOLDER/TestResults/.coverage/index.html")
 }

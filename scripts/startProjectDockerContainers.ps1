@@ -1,7 +1,19 @@
 
+param (
+    # The environement to be used, ex: development.
+    [Parameter(Mandatory=$true)]
+    [string]$Environment,
+    
+    # Should we start the infra and the project of just the infrastructure containers 
+    [bool]$StartAll = $False,
+
+    # Will open the web app if the startAll is true.
+    [bool]$OpenWebbApp = $True
+)
+
 [String] $SCRIPT_ROOT_PATH=$PWD
 [String] $DOCKER_FOLDER_PATH=""
-[String] $ENV_NAME=$args[0]
+[String] $ENV_NAME=$Environment
 
 [String] $CurrentFolder = $SCRIPT_ROOT_PATH.SubString($SCRIPT_ROOT_PATH.Length-7)
 if($CurrentFolder -contains "scripts" ){
@@ -55,6 +67,19 @@ if ([string]::IsNullOrEmpty($Env:PGADMIN_PASSWORD) -Or [string]::IsNullOrEmpty($
  
 Set-Location -Path $DOCKER_FOLDER_PATH
 
-docker compose up --build --force-recreate -d
+Write-Host "[INF] - Starting the infrasturcture containers!"
+docker compose up --build --force-recreate -d pgadmin sonarqube sonarqube-database blog-engine-database
+
+if($StartAll -eq $True) {
+  Write-Host "[INF] - Starting the API and APP containers!"
+  docker compose up --build --force-recreate -d api webapp
+
+  if ($OpenWebbApp -eq $True){
+    Write-Host "[INF] - Opening the webapp!"
+    Start-Sleep -Seconds 1.5
+    start chrome http://localhost:$env:BLOG_ENGINE_APP_PORT
+  }
+}
 
 Set-Location -Path $SCRIPT_ROOT_PATH
+ 

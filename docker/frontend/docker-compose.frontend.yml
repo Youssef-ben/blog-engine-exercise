@@ -1,0 +1,19 @@
+version: "3.8"
+
+services:
+  webapp:
+    container_name: ${BLOG_ENGINE_APP_CONTAINER_NAME}-${ENVIRONEMENT}
+    image: blog/engine/app:${BLOG_ENGINE_APP_VERSION}
+    build:
+      target: app
+      context: ../
+      dockerfile: ./docker/frontend/Dockerfile
+
+    ports:
+      - ${BLOG_ENGINE_APP_PORT}:3000
+
+    networks:
+      - blog-engine
+
+    depends_on:
+      - api

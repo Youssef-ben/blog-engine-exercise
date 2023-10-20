@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 using Blog.Engine.Api.Configuration;
 using Blog.Engine.Models.Settings;
 using Blog.Engine.Models.Settings.Swagger;
@@ -34,6 +35,14 @@ builder.Services
       });
     });
 
+var dllPath = Assembly.GetExecutingAssembly().Location;
+var currentDirectory = Path.GetDirectoryName(dllPath);
+
+// Default settings
+builder.Configuration
+    .SetBasePath(currentDirectory)
+    .AddJsonFile("appsettings.json", false, true)
+    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName.ToLower()}.json", true, true);
 
 builder.Host
     .UseSerilog((hostingContext, loggerConfiguration) =>
