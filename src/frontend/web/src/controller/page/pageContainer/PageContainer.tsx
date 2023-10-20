@@ -1,5 +1,5 @@
 import { Button, Container, Form, Nav, Navbar } from 'react-bootstrap';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 
 import { useTranslation } from 'react-i18next';
 import Logo from '../../../assets/logo.svg';
@@ -8,6 +8,9 @@ import { usePageContainer } from './usePageContainer';
 export const PageContainer = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const { pathname } = useLocation();
+
+  const isAdmin = pathname.includes('admin');
 
   const { language, onLanguageChange } = usePageContainer();
 
@@ -37,24 +40,10 @@ export const PageContainer = () => {
                   fontWeight: '500',
                 }}
                 onClick={() => {
-                  navigate('/');
+                  navigate(isAdmin ? '/' : 'admin');
                 }}
               >
-                {t('app.user')}
-              </Button>
-
-              <Button
-                variant="outline "
-                style={{
-                  textTransform: 'uppercase',
-                  textDecoration: 'underline',
-                  fontWeight: '500',
-                }}
-                onClick={() => {
-                  navigate('admin');
-                }}
-              >
-                {t('app.admin')}
+                {isAdmin ? t('app.logout') : t('app.login')}
               </Button>
 
               <div
