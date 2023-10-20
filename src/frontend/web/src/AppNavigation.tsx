@@ -1,3 +1,4 @@
+import { UserPage } from 'Controller/page/user';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { AdminPage } from './controller/page';
 import { PageContainer } from './controller/page/pageContainer/PageContainer';
@@ -12,7 +13,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/',
-        element: <AdminPage />,
+        element: <UserPage />,
       },
     ],
   },

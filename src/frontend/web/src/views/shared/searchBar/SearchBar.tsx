@@ -9,7 +9,7 @@ export interface SearchBarProps {
 export const SearchBar = ({ placeholder, onChange }: SearchBarProps) => {
   return (
     <div style={styles.search}>
-      <InputGroup className="mb-3" style={styles.searchInput}>
+      <InputGroup className="mb-0" style={styles.searchInput}>
         <InputGroup.Text id="basic-addon1">
           <i className="fa fa-search"></i>
         </InputGroup.Text>
@@ -37,6 +37,6 @@ const styles: searchBarStyle = {
     justifyContent: 'center',
   },
   searchInput: {
-    width: '70%',
+    width: '100%',
   },
 };

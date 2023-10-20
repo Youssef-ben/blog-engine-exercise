@@ -39,7 +39,6 @@ const styles: CategoryItemStyles = {
   },
   title: {
     marginBottom: 0,
-    textTransform: 'capitalize',
     textDecoration: 'underline',
     textAlign: 'center',
   },

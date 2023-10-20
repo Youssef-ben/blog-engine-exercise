@@ -1,6 +1,8 @@
 {
   "app": {
-    "title": "Blog Engine"
+    "title": "Blog Engine",
+    "admin": "Admin",
+    "user": "User"
   },
   "common": {
     "save": "Save",

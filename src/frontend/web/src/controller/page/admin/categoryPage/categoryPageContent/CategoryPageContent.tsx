@@ -11,7 +11,17 @@ export const CategoryPageContent = () => {
   return (
     <>
       <Row>
-        <SearchBar {...searchProps} />
+        <div
+          style={{
+            marginRight: 'auto',
+            marginLeft: 'auto',
+            width: '70%',
+            marginTop: '10px',
+            marginBottom: '30px',
+          }}
+        >
+          <SearchBar {...searchProps} />
+        </div>
       </Row>
       <Row>
         <Col>

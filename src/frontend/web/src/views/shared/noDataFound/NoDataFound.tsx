@@ -1,13 +1,16 @@
 import { CSSProperties } from 'react';
 import { useTranslation } from 'react-i18next';
 
-export const NoDataFound = () => {
+export interface NoDataFoundProps {
+  adminContent?: boolean;
+}
+export const NoDataFound = ({ adminContent = true }: NoDataFoundProps) => {
   const { t } = useTranslation();
 
   return (
     <div style={styles.noDataWrapper}>
       <span style={styles.noData}>{t('noData.title')}</span>
-      <span style={styles.noData}>{t('noData.details')}</span>
+      {adminContent && <span style={styles.noData}>{t('noData.details')}</span>}
     </div>
   );
 };

@@ -146,12 +146,14 @@ export const usePostFormContainer = ({
   };
 
   const savePostAsync = async () => {
+    console.log(values);
     try {
       await axios<Post, ApiResponse<Post>>({
         method: postId ? 'PUT' : 'POST',
         url: `${API_URL}/posts/admin`,
         data: {
           ...values,
+          id: postId || '',
         },
       });
 
