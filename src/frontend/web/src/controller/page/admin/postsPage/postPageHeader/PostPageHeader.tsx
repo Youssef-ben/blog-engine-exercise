@@ -1,7 +1,7 @@
+import { SimpleButton } from 'Views/shared';
 import { CSSProperties } from 'react';
 import { useTranslation } from 'react-i18next';
-import { SimpleButton } from '../../../../../views/shared';
-import { PostFormContainer } from '../postFormContainer/PostFormContainer';
+import { PostFormContainer } from '../postFormContainer';
 import { usePostPageHeader } from './usePostPageHeader';
 
 export const PostPageHeader = () => {

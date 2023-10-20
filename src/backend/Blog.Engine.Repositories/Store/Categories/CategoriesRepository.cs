@@ -34,7 +34,7 @@ public class CategoriesRepository : ICategoriesRepository
     if (!string.IsNullOrWhiteSpace(searchParams.Keyword))
     {
       queryable = queryable
-          .Where(x => EF.Functions.Like(x.Title, searchParams.Keyword));
+          .Where(x => EF.Functions.Like(x.Title.ToLower(), searchParams.Keyword.ToLower()));
     }
 
     return await queryable.ToPaginationAsync(searchParams.PageNumber, searchParams.RecordsPerPage);

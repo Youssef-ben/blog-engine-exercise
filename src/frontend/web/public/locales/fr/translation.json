@@ -12,6 +12,7 @@
   },
   "category": {
     "list": {
+      "search": "Rechercher des catégories...",
       "title": "Catégories"
     },
     "form": {
@@ -25,6 +26,7 @@
   },
   "post": {
     "list": {
+      "search": "Rechercher des postes...",
       "title": "Postes"
     },
     "form": {

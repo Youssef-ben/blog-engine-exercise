@@ -1,14 +1,18 @@
 import { CategoriesList } from 'Views/category';
-import { AppLoader } from 'Views/shared';
+import { AppLoader, SearchBar } from 'Views/shared';
 import { Col, Row } from 'react-bootstrap';
 import { CategoryFormContainer } from '../categoryFormContainer';
 import { useCategoryPageContent } from './useCategoryPageContent';
 
 export const CategoryPageContent = () => {
-  const { isLoading, categoriesListProps, categoryFormProps } = useCategoryPageContent();
+  const { isLoading, categoriesListProps, categoryFormProps, searchProps } =
+    useCategoryPageContent();
 
   return (
     <>
+      <Row>
+        <SearchBar {...searchProps} />
+      </Row>
       <Row>
         <Col>
           {isLoading ? (
