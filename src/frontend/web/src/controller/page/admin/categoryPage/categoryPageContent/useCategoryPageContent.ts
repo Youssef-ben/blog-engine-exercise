@@ -1,3 +1,4 @@
+import { useErrorsContext } from 'Controller/provider';
 import { UpdateNotifier } from 'Controller/utils/UpdateNotifier';
 import { API_URL } from 'Controller/utils/constants';
 import { getErrorMessage } from 'Controller/utils/responseHelpers';
@@ -20,6 +21,8 @@ export interface UseCategoryPageContentData {
 
 export const useCategoryPageContent = (): UseCategoryPageContentData => {
   const { t } = useTranslation();
+
+  const { setMessage } = useErrorsContext();
 
   const [isLoading, setIsLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -56,6 +59,7 @@ export const useCategoryPageContent = (): UseCategoryPageContentData => {
       }
     } catch (error: any) {
       console.error(t(getErrorMessage(error)));
+      setMessage(t(getErrorMessage(error)));
     }
 
     setIsLoading(false);
