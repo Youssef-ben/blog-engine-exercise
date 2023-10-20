@@ -18,10 +18,10 @@ export const UserPostPage = () => {
         width: '50%',
         backgroundColor: '#8787870f',
         boxShadow: 'black 0px 0px 12px -7px',
-        minHeight: 'calc(100vh - 60px)',
+        minHeight: 'calc(100vh - 70px)',
         padding: 24,
         paddingBottom: 8,
-        marginBottom: 24,
+        marginBottom: 8,
       }}
     >
       <Row>
