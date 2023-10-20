@@ -83,7 +83,8 @@ public class PostsRepository : IPostsRepository
     if (!string.IsNullOrWhiteSpace(searchParams.Keyword))
     {
       queryable = queryable
-          .Where(x => EF.Functions.Like(x.Title, searchParams.Keyword));
+          .Where(x => EF.Functions.Like(x.Title.ToLower(), searchParams.Keyword.ToLower())
+                      || EF.Functions.Like(x.Content.ToLower(), searchParams.Keyword.ToLower()));
     }
 
     return queryable;
